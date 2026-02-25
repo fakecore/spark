@@ -1,0 +1,420 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.1"
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Install protoc
+        run: |
+          PROTOC_VERSION=31.1
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip
+          unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d protoc
+          sudo cp protoc/bin/protoc /usr/local/bin/
+          sudo chmod +x /usr/local/bin/protoc
+
+      - name: Install dependencies
+        run: make init
+
+      - name: Docker info
+        run: docker info
+
+      - name: Commit gate checks
+        run: make check-commit
+
+  smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: projecttemplate
+          POSTGRES_PASSWORD: projecttemplate
+          POSTGRES_DB: projecttemplate
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U projecttemplate -d projecttemplate"
+          --health-interval=3s
+          --health-timeout=3s
+          --health-retries=30
+      redis:
+        image: redis:8.4.0
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=3s
+          --health-timeout=3s
+          --health-retries=30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.1"
+
+      - name: Install protoc
+        run: |
+          PROTOC_VERSION=31.1
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip
+          unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d protoc
+          sudo cp protoc/bin/protoc /usr/local/bin/
+          sudo chmod +x /usr/local/bin/protoc
+
+      - name: Install Atlas CLI
+        run: |
+          go install ariga.io/atlas/cmd/atlas@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+          atlas version
+
+      - name: Start NATS JetStream
+        run: |
+          docker run -d --name nats -p 4222:4222 -p 8222:8222 nats:2.10-alpine -js -m 8222
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8222/varz >/dev/null; then
+              echo "nats ok"
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs nats || true
+          exit 1
+
+      - name: Install dependencies and build
+        run: |
+          make init
+          make all
+          make build
+
+      - name: Migrate DB
+        env:
+          DATABASE_URL: postgres://projecttemplate:projecttemplate@127.0.0.1:5432/projecttemplate?sslmode=disable
+        run: |
+          make migrate-dev
+
+      - name: Start server and wait for readyz
+        env:
+          DATABASE_URL: postgres://projecttemplate:projecttemplate@127.0.0.1:5432/projecttemplate?sslmode=disable
+        run: |
+          nohup go run cmd/server/main.go --conf docker/backend/config/config.yaml > /tmp/projecttemplate.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:9988/readyz >/dev/null; then
+              echo "readyz ok"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "readyz timeout"
+          tail -n 200 /tmp/projecttemplate.log || true
+          exit 1
+
+  build-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    # --- FIX START ---
+    # Add permissions here to allow pushing to GitHub Packages (ghcr.io)
+    permissions:
+      contents: read
+      packages: write
+    # --- FIX END ---
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.1"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Install protoc
+        run: |
+          PROTOC_VERSION=31.1
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip
+          unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d protoc
+          sudo cp protoc/bin/protoc /usr/local/bin/
+          sudo chmod +x /usr/local/bin/protoc
+
+      - name: Install dependencies and build
+        run: |
+          make init
+          make all
+          VERSION=$(awk 'NR==2 {print $0}' .project)
+          pushd cmd/server
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.Version=$VERSION" -o ../../dist/backend/projecttemplate
+          popd
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/backend/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+
+  build-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    # --- FIX START ---
+    # Add permissions here as well for the frontend image
+    permissions:
+      contents: read
+      packages: write
+    # --- FIX END ---
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          pnpm --version
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Build frontend
+        run: |
+          cd web
+          pnpm install --frozen-lockfile
+          pnpm build:notypecheck
+          mkdir -p ../dist/frontend
+          cp -r dist/* ../dist/frontend/
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/frontend/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+
+  build-package:
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    # Permissions for login and potential package interaction
+    permissions:
+      contents: read
+      packages: read # Reading packages is enough if only pulling
+    strategy:
+      matrix:
+        environment: [prod, dev]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.1"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "pnpm"
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          pnpm --version
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install protoc
+        run: |
+          PROTOC_VERSION=31.1
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip
+          unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d protoc
+          sudo cp protoc/bin/protoc /usr/local/bin/
+          sudo chmod +x /usr/local/bin/protoc
+
+      - name: Build package
+        run: |
+          make docker-build ENV=${{ matrix.environment }}
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: projecttemplate-package-${{ matrix.environment }}
+          path: dist/*.tar.gz
+          retention-days: 30
+
+  release:
+    needs: build-package
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    # Permissions to create a release and upload assets
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*.tar.gz
+          body: |
+            ## What's Changed
+
+            ### Package Contents
+            - Production package (`projecttemplate-*-prod.tar.gz`): Optimized for production deployment
+            - Development package (`projecttemplate-*-dev.tar.gz`): Includes debug configurations
+
+            ### Deployment
+            1. Extract the package: `tar -xzf projecttemplate-*.tar.gz`
+            2. Load Docker images: `cd projecttemplate-* && ./manage.sh load`
+            3. Start services: `./manage.sh start`
+
+            For more details, see the README in the extracted package.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  ci-test:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/ci-test'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.1"
+
+      - name: Install protoc
+        run: |
+          PROTOC_VERSION=31.1
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip
+          unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d protoc
+          sudo cp protoc/bin/protoc /usr/local/bin/
+          sudo chmod +x /usr/local/bin/protoc
+
+      - name: Run CI tests
+        run: |
+          echo "=== Running CI tests in ci-test branch ==="
+          echo "Branch: ${{ github.ref }}"
+          echo "Event: ${{ github.event_name }}"
+
+          # 安装依赖
+          make init || echo "Init failed, continuing..."
+
+          # 基础测试
+          make fmt || echo "Format check failed"
+          make vet || echo "Vet check failed"
+
+          # 尝试生成代码
+          make all || echo "Code generation failed"
+
+          # 尝试构建
+          make build || echo "Build failed"
+
+          echo "=== CI test completed ==="

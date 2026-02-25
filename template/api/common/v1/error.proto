@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+// 定义包名
+package api.kratos.v1;
+import "errors/errors.proto";
+
+// 多语言特定包名,用于源代码引用
+option go_package = "spark/api/common/v1;v1";
+
+enum ErrorReason {
+  // 设置缺省错误码
+  option (errors.default_code) = 500;
+
+  COMMON_ERROR           = 0;
+  COMMON_CONTENT_MISSING = 1;
+  COMMON_INTERNAL_ERROR  = 2;
+
+  SYSTEM_USER_ERROR       = 100;
+  SYSTEM_USER_NOT_FOUND   = 101;
+  SYSTEM_AUTH_ERROR       = 102;
+  SYSTEM_ROLE_ERROR       = 200;
+  SYSTEM_MENU_ERROR       = 300;
+  SYSTEM_PERMISSION_ERROR = 400;
+  SYSTEM_DICT_ERROR       = 500;
+  SYSTEM_DEPT_ERROR       = 600;
+  SYSTEM_POST_ERROR       = 700;
+
+  SYSTEM_OSS_CONFIG_INVALID      = 900;
+  SYSTEM_OSS_CONFIG_INCOMPLETE   = 901;
+  SYSTEM_OSS_SERVICE_UNAVAILABLE = 902;
+  SYSTEM_OSS_PROVIDER_NOT_FOUND  = 903;
+}

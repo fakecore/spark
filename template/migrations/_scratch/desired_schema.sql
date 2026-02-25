@@ -1,0 +1,266 @@
+-- atlas:pos base_model_create_onlies[type=table] /Users/dylan/item/project-template/internal/data/dal/model/base.go:31
+-- atlas:pos base_model_no_soft_deletes[type=table] /Users/dylan/item/project-template/internal/data/dal/model/base.go:22
+-- atlas:pos base_models[type=table] /Users/dylan/item/project-template/internal/data/dal/model/base.go:6
+-- atlas:pos casbin_rule[type=table] /Users/dylan/item/project-template/internal/data/dal/model/casbin_rule.go:6
+-- atlas:pos sys_announcement[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_announcement.go:6
+-- atlas:pos sys_config[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_config.go:6
+-- atlas:pos sys_dept[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_dept.go:6
+-- atlas:pos sys_dict_type[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_dict_type.go:6
+-- atlas:pos sys_dict_value[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_dict_value.go:6
+-- atlas:pos sys_file[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_file.go:8
+-- atlas:pos sys_login_log[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_login_log.go:6
+-- atlas:pos sys_menu[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_menu.go:6
+-- atlas:pos sys_message[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_message.go:6
+-- atlas:pos sys_message_text[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_message_text.go:6
+-- atlas:pos sys_message_user[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_message_user.go:6
+-- atlas:pos sys_oper_log[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_oper_log.go:6
+-- atlas:pos sys_post[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_post.go:6
+-- atlas:pos sys_role[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_role.go:6
+-- atlas:pos sys_role_dept[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_role_dept.go:6
+-- atlas:pos sys_user[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_user.go:6
+-- atlas:pos sys_user_o_auth[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_user_oauth.go:6
+-- atlas:pos sys_user_online[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_user_online.go:6
+-- atlas:pos sys_user_post[type=table] /Users/dylan/item/project-template/internal/data/dal/model/sys_user_post.go:6
+
+CREATE TABLE "base_models" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"deleted_by" bigint,"created_at" bigint,"updated_at" bigint,"deleted_at" bigint,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "base_models"."created_by" IS '创建者';
+COMMENT ON COLUMN "base_models"."updated_by" IS '更新者';
+COMMENT ON COLUMN "base_models"."deleted_by" IS '删除者';
+COMMENT ON COLUMN "base_models"."created_at" IS '创建时间';
+COMMENT ON COLUMN "base_models"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "base_models"."deleted_at" IS '删除时间';
+CREATE TABLE "base_model_create_onlies" ("id" bigserial,"created_by" bigint,"created_at" bigint,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "base_model_create_onlies"."created_by" IS '创建者';
+COMMENT ON COLUMN "base_model_create_onlies"."created_at" IS '创建时间';
+CREATE TABLE "base_model_no_soft_deletes" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "base_model_no_soft_deletes"."created_by" IS '创建者';
+COMMENT ON COLUMN "base_model_no_soft_deletes"."updated_by" IS '更新者';
+COMMENT ON COLUMN "base_model_no_soft_deletes"."created_at" IS '创建时间';
+COMMENT ON COLUMN "base_model_no_soft_deletes"."updated_at" IS '更新时间';
+CREATE TABLE "casbin_rule" ("id" bigserial,"ptype" varchar(64),"v0" varchar(256),"v1" varchar(256),"v2" varchar(256),"v3" varchar(256),"v4" varchar(256),"v5" varchar(256),PRIMARY KEY ("id"));
+COMMENT ON COLUMN "casbin_rule"."ptype" IS '策略类型';
+COMMENT ON COLUMN "casbin_rule"."v0" IS 'V0';
+COMMENT ON COLUMN "casbin_rule"."v1" IS 'V1';
+COMMENT ON COLUMN "casbin_rule"."v2" IS 'V2';
+COMMENT ON COLUMN "casbin_rule"."v3" IS 'V3';
+COMMENT ON COLUMN "casbin_rule"."v4" IS 'V4';
+COMMENT ON COLUMN "casbin_rule"."v5" IS 'V5';
+CREATE TABLE "sys_announcement" ("id" bigserial,"created_by" bigint,"created_at" bigint,"title" varchar(256) NOT NULL,"content" text NOT NULL,"url" varchar(512) NOT NULL,"status" smallint NOT NULL,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_announcement"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_announcement"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_announcement"."title" IS '标题';
+COMMENT ON COLUMN "sys_announcement"."content" IS '内容';
+COMMENT ON COLUMN "sys_announcement"."url" IS '图片URL';
+COMMENT ON COLUMN "sys_announcement"."status" IS '状态 0未发布 1已发布';
+CREATE TABLE "sys_config" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,"name" varchar(128) NOT NULL,"key" varchar(128),"value" text,"kind" smallint NOT NULL,"status" smallint NOT NULL DEFAULT 1,"remark" varchar(512),PRIMARY KEY ("id"));
+CREATE UNIQUE INDEX IF NOT EXISTS "idx_sys_config_key" ON "sys_config" ("key");
+COMMENT ON COLUMN "sys_config"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_config"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_config"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_config"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_config"."name" IS '配置名称';
+COMMENT ON COLUMN "sys_config"."key" IS '配置键';
+COMMENT ON COLUMN "sys_config"."value" IS '配置值';
+COMMENT ON COLUMN "sys_config"."kind" IS '类型 0系统 1用户';
+COMMENT ON COLUMN "sys_config"."status" IS '状态 0禁用 1正常';
+COMMENT ON COLUMN "sys_config"."remark" IS '备注';
+CREATE TABLE "sys_dept" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"deleted_by" bigint,"created_at" bigint,"updated_at" bigint,"deleted_at" bigint,"parent_id" bigint NOT NULL,"ancestors" varchar(512) NOT NULL,"dept_name" varchar(64) NOT NULL,"sort" integer NOT NULL,"leader" varchar(64),"phone" varchar(20),"email" varchar(128),"status" smallint NOT NULL DEFAULT 1,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_dept"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_dept"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_dept"."deleted_by" IS '删除者';
+COMMENT ON COLUMN "sys_dept"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_dept"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_dept"."deleted_at" IS '删除时间';
+COMMENT ON COLUMN "sys_dept"."parent_id" IS '父部门ID';
+COMMENT ON COLUMN "sys_dept"."ancestors" IS '祖级列表';
+COMMENT ON COLUMN "sys_dept"."dept_name" IS '部门名称';
+COMMENT ON COLUMN "sys_dept"."sort" IS '显示顺序';
+COMMENT ON COLUMN "sys_dept"."leader" IS '负责人';
+COMMENT ON COLUMN "sys_dept"."phone" IS '联系电话';
+COMMENT ON COLUMN "sys_dept"."email" IS '邮箱';
+COMMENT ON COLUMN "sys_dept"."status" IS '状态 0停用 1正常';
+CREATE TABLE "sys_dict_type" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,"name" varchar(128) NOT NULL,"type_code" varchar(64) NOT NULL,"status" smallint NOT NULL DEFAULT 1,"remark" varchar(512),PRIMARY KEY ("id"));
+CREATE UNIQUE INDEX IF NOT EXISTS "idx_sys_dict_type_type_code" ON "sys_dict_type" ("type_code");
+COMMENT ON COLUMN "sys_dict_type"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_dict_type"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_dict_type"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_dict_type"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_dict_type"."name" IS '字典名称';
+COMMENT ON COLUMN "sys_dict_type"."type_code" IS '字典类型编码';
+COMMENT ON COLUMN "sys_dict_type"."status" IS '状态 0禁用 1正常';
+COMMENT ON COLUMN "sys_dict_type"."remark" IS '备注';
+CREATE TABLE "sys_dict_value" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"deleted_by" bigint,"created_at" bigint,"updated_at" bigint,"deleted_at" bigint,"dict_code" varchar(64) NOT NULL,"sort" integer NOT NULL,"label" varchar(128) NOT NULL,"value" varchar(256) NOT NULL,"css_class" varchar(128),"list_class" varchar(128),"is_default" smallint NOT NULL,"status" smallint NOT NULL DEFAULT 1,"remark" varchar(512),PRIMARY KEY ("id"));
+CREATE INDEX IF NOT EXISTS "idx_sys_dict_value_dict_code" ON "sys_dict_value" ("dict_code");
+COMMENT ON COLUMN "sys_dict_value"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_dict_value"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_dict_value"."deleted_by" IS '删除者';
+COMMENT ON COLUMN "sys_dict_value"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_dict_value"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_dict_value"."deleted_at" IS '删除时间';
+COMMENT ON COLUMN "sys_dict_value"."dict_code" IS '字典类型编码';
+COMMENT ON COLUMN "sys_dict_value"."sort" IS '显示顺序';
+COMMENT ON COLUMN "sys_dict_value"."label" IS '字典标签';
+COMMENT ON COLUMN "sys_dict_value"."value" IS '字典值';
+COMMENT ON COLUMN "sys_dict_value"."css_class" IS '样式类';
+COMMENT ON COLUMN "sys_dict_value"."list_class" IS '列表样式';
+COMMENT ON COLUMN "sys_dict_value"."is_default" IS '是否默认';
+COMMENT ON COLUMN "sys_dict_value"."status" IS '状态 0禁用 1正常';
+COMMENT ON COLUMN "sys_dict_value"."remark" IS '备注';
+CREATE TABLE "sys_file" ("id" bigserial,"file_name" varchar(256) NOT NULL,"file_size" bigint NOT NULL,"mime_type" varchar(128),"biz_type" smallint NOT NULL DEFAULT 1,"usage_type" varchar(64),"md5" varchar(64),"oss_bucket" varchar(128) NOT NULL,"oss_path" varchar(1024) NOT NULL,"status" smallint NOT NULL,"create_time" bigint NOT NULL,"deleted_at" bigint,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_file"."file_name" IS '文件名';
+COMMENT ON COLUMN "sys_file"."file_size" IS '文件大小';
+COMMENT ON COLUMN "sys_file"."mime_type" IS 'MIME类型';
+COMMENT ON COLUMN "sys_file"."biz_type" IS '业务类型 1公开 2私有';
+COMMENT ON COLUMN "sys_file"."usage_type" IS '使用类型';
+COMMENT ON COLUMN "sys_file"."md5" IS 'MD5';
+COMMENT ON COLUMN "sys_file"."oss_bucket" IS 'OSS Bucket';
+COMMENT ON COLUMN "sys_file"."oss_path" IS 'OSS路径';
+COMMENT ON COLUMN "sys_file"."status" IS '状态 0禁用 1已上传 2已使用 3待处理';
+COMMENT ON COLUMN "sys_file"."create_time" IS '创建时间';
+CREATE TABLE "sys_login_log" ("id" bigserial,"created_by" bigint,"created_at" bigint,"login_name" varchar(64),"ipaddr" varchar(64),"login_location" varchar(256),"browser" varchar(128),"os" varchar(128),"status" smallint NOT NULL DEFAULT 1,"msg" varchar(512),"module" varchar(64),PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_login_log"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_login_log"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_login_log"."login_name" IS '登录名';
+COMMENT ON COLUMN "sys_login_log"."ipaddr" IS 'IP地址';
+COMMENT ON COLUMN "sys_login_log"."login_location" IS '登录地点';
+COMMENT ON COLUMN "sys_login_log"."browser" IS '浏览器';
+COMMENT ON COLUMN "sys_login_log"."os" IS '操作系统';
+COMMENT ON COLUMN "sys_login_log"."status" IS '状态 0失败 1成功';
+COMMENT ON COLUMN "sys_login_log"."msg" IS '消息';
+COMMENT ON COLUMN "sys_login_log"."module" IS '模块';
+CREATE TABLE "sys_menu" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,"pid" bigint NOT NULL,"name" varchar(64) NOT NULL,"title" varchar(64) NOT NULL,"icon" varchar(300) NOT NULL,"condition" varchar(256) NOT NULL,"remark" varchar(512),"menu_type" smallint NOT NULL,"weight" integer NOT NULL,"is_show" smallint NOT NULL DEFAULT 1,"path" varchar(256) NOT NULL,"component" varchar(256) NOT NULL,"is_link" smallint NOT NULL,"module_type" varchar(64) NOT NULL,"model_id" integer NOT NULL,"is_iframe" smallint NOT NULL,"is_cached" smallint NOT NULL,"redirect" varchar(256) NOT NULL,"is_affix" smallint NOT NULL,"link_url" varchar(512) NOT NULL,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_menu"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_menu"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_menu"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_menu"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_menu"."pid" IS '父ID';
+COMMENT ON COLUMN "sys_menu"."name" IS '规则名称';
+COMMENT ON COLUMN "sys_menu"."title" IS '标题';
+COMMENT ON COLUMN "sys_menu"."icon" IS '图标';
+COMMENT ON COLUMN "sys_menu"."condition" IS '条件';
+COMMENT ON COLUMN "sys_menu"."remark" IS '备注';
+COMMENT ON COLUMN "sys_menu"."menu_type" IS '类型 0目录 1菜单 2按钮';
+COMMENT ON COLUMN "sys_menu"."weight" IS '权重';
+COMMENT ON COLUMN "sys_menu"."is_show" IS '显示状态 0隐藏 1显示';
+COMMENT ON COLUMN "sys_menu"."path" IS '路由地址';
+COMMENT ON COLUMN "sys_menu"."component" IS '组件路径';
+COMMENT ON COLUMN "sys_menu"."is_link" IS '是否外链';
+COMMENT ON COLUMN "sys_menu"."module_type" IS '所属模块';
+COMMENT ON COLUMN "sys_menu"."model_id" IS '模型ID';
+COMMENT ON COLUMN "sys_menu"."is_iframe" IS '是否内嵌iframe';
+COMMENT ON COLUMN "sys_menu"."is_cached" IS '是否缓存';
+COMMENT ON COLUMN "sys_menu"."redirect" IS '路由重定向';
+COMMENT ON COLUMN "sys_menu"."is_affix" IS '是否固定';
+COMMENT ON COLUMN "sys_menu"."link_url" IS '链接地址';
+CREATE TABLE "sys_message" ("id" bigserial,"created_by" bigint,"created_at" bigint,"title" varchar(256) NOT NULL,"kind" smallint NOT NULL,"content" text NOT NULL,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_message"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_message"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_message"."title" IS '标题';
+COMMENT ON COLUMN "sys_message"."kind" IS '类型 0系统 1一对多';
+COMMENT ON COLUMN "sys_message"."content" IS '内容';
+CREATE TABLE "sys_message_text" ("id" bigserial,"created_by" bigint,"created_at" bigint,"title" varchar(256) NOT NULL,"content" text NOT NULL,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_message_text"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_message_text"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_message_text"."title" IS '标题';
+COMMENT ON COLUMN "sys_message_text"."content" IS '内容';
+CREATE TABLE "sys_message_user" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,"message_id" bigint NOT NULL,"send_id" bigint NOT NULL,"rec_id" bigint NOT NULL,"status" smallint NOT NULL,PRIMARY KEY ("id"));
+CREATE INDEX IF NOT EXISTS "idx_sys_message_user_rec_id" ON "sys_message_user" ("rec_id");
+CREATE INDEX IF NOT EXISTS "idx_sys_message_user_send_id" ON "sys_message_user" ("send_id");
+CREATE INDEX IF NOT EXISTS "idx_sys_message_user_message_id" ON "sys_message_user" ("message_id");
+COMMENT ON COLUMN "sys_message_user"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_message_user"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_message_user"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_message_user"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_message_user"."message_id" IS '消息ID';
+COMMENT ON COLUMN "sys_message_user"."send_id" IS '发送者ID';
+COMMENT ON COLUMN "sys_message_user"."rec_id" IS '接收者ID';
+COMMENT ON COLUMN "sys_message_user"."status" IS '状态 0未读 1已读';
+CREATE TABLE "sys_oper_log" ("id" bigserial,"created_by" bigint,"title" varchar(128),"business_type" smallint NOT NULL,"method" varchar(256),"request_method" varchar(16),"operator_type" smallint NOT NULL,"oper_name" varchar(64),"dept_name" varchar(64),"oper_url" varchar(512),"oper_ip" varchar(64),"oper_location" varchar(256),"oper_param" text,"error_msg" text,"created_at" bigint,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_oper_log"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_oper_log"."title" IS '标题';
+COMMENT ON COLUMN "sys_oper_log"."business_type" IS '业务类型 0其他 1新增 2修改 3删除';
+COMMENT ON COLUMN "sys_oper_log"."method" IS '方法';
+COMMENT ON COLUMN "sys_oper_log"."request_method" IS '请求方式';
+COMMENT ON COLUMN "sys_oper_log"."operator_type" IS '操作类型 0其他 1后台 2手机';
+COMMENT ON COLUMN "sys_oper_log"."oper_name" IS '操作人';
+COMMENT ON COLUMN "sys_oper_log"."dept_name" IS '部门';
+COMMENT ON COLUMN "sys_oper_log"."oper_url" IS '请求URL';
+COMMENT ON COLUMN "sys_oper_log"."oper_ip" IS '操作IP';
+COMMENT ON COLUMN "sys_oper_log"."oper_location" IS '操作地点';
+COMMENT ON COLUMN "sys_oper_log"."oper_param" IS '请求参数';
+COMMENT ON COLUMN "sys_oper_log"."error_msg" IS '错误消息';
+CREATE TABLE "sys_post" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"deleted_by" bigint,"created_at" bigint,"updated_at" bigint,"deleted_at" bigint,"post_code" varchar(64) NOT NULL,"post_name" varchar(64) NOT NULL,"sort" integer NOT NULL,"status" smallint NOT NULL DEFAULT 1,"remark" varchar(512),PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_post"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_post"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_post"."deleted_by" IS '删除者';
+COMMENT ON COLUMN "sys_post"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_post"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_post"."deleted_at" IS '删除时间';
+COMMENT ON COLUMN "sys_post"."post_code" IS '岗位编码';
+COMMENT ON COLUMN "sys_post"."post_name" IS '岗位名称';
+COMMENT ON COLUMN "sys_post"."sort" IS '显示顺序';
+COMMENT ON COLUMN "sys_post"."status" IS '状态 0停用 1正常';
+COMMENT ON COLUMN "sys_post"."remark" IS '备注';
+CREATE TABLE "sys_role" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,"status" smallint NOT NULL,"sort" integer NOT NULL,"name" varchar(64) NOT NULL,"data_scope" smallint NOT NULL DEFAULT 3,"remark" varchar(512),PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_role"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_role"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_role"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_role"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_role"."status" IS '状态 0禁用 1正常';
+COMMENT ON COLUMN "sys_role"."sort" IS '显示顺序';
+COMMENT ON COLUMN "sys_role"."name" IS '角色名称';
+COMMENT ON COLUMN "sys_role"."data_scope" IS '数据范围 1全部 2自定 3本部门 4本部门及以下';
+COMMENT ON COLUMN "sys_role"."remark" IS '备注';
+CREATE TABLE "sys_role_dept" ("id" bigserial,"role_id" bigint NOT NULL,"dept_id" bigint NOT NULL,PRIMARY KEY ("id"));
+CREATE INDEX IF NOT EXISTS "idx_sys_role_dept_dept_id" ON "sys_role_dept" ("dept_id");
+CREATE INDEX IF NOT EXISTS "idx_sys_role_dept_role_id" ON "sys_role_dept" ("role_id");
+COMMENT ON COLUMN "sys_role_dept"."role_id" IS '角色ID';
+COMMENT ON COLUMN "sys_role_dept"."dept_id" IS '部门ID';
+CREATE TABLE "sys_user" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"deleted_by" bigint,"created_at" bigint,"updated_at" bigint,"deleted_at" bigint,"name" varchar(64) NOT NULL,"nickname" varchar(64) NOT NULL,"mobile" varchar(20) NOT NULL,"birthday" integer NOT NULL,"password" varchar(255) NOT NULL,"status" smallint NOT NULL DEFAULT 1,"email" varchar(128) NOT NULL,"sex" smallint NOT NULL DEFAULT 0,"avatar" varchar(512) NOT NULL,"dept_id" bigint NOT NULL,"is_admin" smallint NOT NULL DEFAULT 0,"address" varchar(256),"remark" varchar(512),"last_login_ip" varchar(64),"last_login_time" bigint,PRIMARY KEY ("id"));
+CREATE INDEX IF NOT EXISTS "idx_sys_user_dept_id" ON "sys_user" ("dept_id");
+COMMENT ON COLUMN "sys_user"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_user"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_user"."deleted_by" IS '删除者';
+COMMENT ON COLUMN "sys_user"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_user"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_user"."deleted_at" IS '删除时间';
+COMMENT ON COLUMN "sys_user"."name" IS '用户名';
+COMMENT ON COLUMN "sys_user"."nickname" IS '用户昵称';
+COMMENT ON COLUMN "sys_user"."mobile" IS '手机号';
+COMMENT ON COLUMN "sys_user"."birthday" IS '生日';
+COMMENT ON COLUMN "sys_user"."password" IS '登录密码';
+COMMENT ON COLUMN "sys_user"."status" IS '状态 0禁用 1正常 2未验证';
+COMMENT ON COLUMN "sys_user"."email" IS '邮箱';
+COMMENT ON COLUMN "sys_user"."sex" IS '性别 0保密 1男 2女';
+COMMENT ON COLUMN "sys_user"."avatar" IS '头像';
+COMMENT ON COLUMN "sys_user"."dept_id" IS '部门ID';
+COMMENT ON COLUMN "sys_user"."is_admin" IS '是否管理员';
+COMMENT ON COLUMN "sys_user"."address" IS '联系地址';
+COMMENT ON COLUMN "sys_user"."remark" IS '备注';
+COMMENT ON COLUMN "sys_user"."last_login_ip" IS '最后登录IP';
+COMMENT ON COLUMN "sys_user"."last_login_time" IS '最后登录时间';
+CREATE TABLE "sys_user_o_auth" ("id" bigserial,"uid" bigint NOT NULL,"oauth_type" varchar(32) NOT NULL,"oauth_id" varchar(128) NOT NULL,"oauth_access_token" varchar(512) NOT NULL,"oauth_expire" bigint NOT NULL DEFAULT 86400,PRIMARY KEY ("id"));
+CREATE INDEX IF NOT EXISTS "idx_sys_user_o_auth_uid" ON "sys_user_o_auth" ("uid");
+COMMENT ON COLUMN "sys_user_o_auth"."uid" IS '用户ID';
+COMMENT ON COLUMN "sys_user_o_auth"."oauth_type" IS 'OAuth类型';
+COMMENT ON COLUMN "sys_user_o_auth"."oauth_id" IS 'OAuth ID';
+COMMENT ON COLUMN "sys_user_o_auth"."oauth_access_token" IS 'Access Token';
+COMMENT ON COLUMN "sys_user_o_auth"."oauth_expire" IS '过期时间';
+CREATE TABLE "sys_user_online" ("id" bigserial,"created_by" bigint,"updated_by" bigint,"created_at" bigint,"updated_at" bigint,"uuid" varchar(64) NOT NULL,"token" varchar(512) NOT NULL,"user_name" varchar(64) NOT NULL,"ip" varchar(64) NOT NULL,"explorer" varchar(128) NOT NULL,"os" varchar(128) NOT NULL,PRIMARY KEY ("id"));
+COMMENT ON COLUMN "sys_user_online"."created_by" IS '创建者';
+COMMENT ON COLUMN "sys_user_online"."updated_by" IS '更新者';
+COMMENT ON COLUMN "sys_user_online"."created_at" IS '创建时间';
+COMMENT ON COLUMN "sys_user_online"."updated_at" IS '更新时间';
+COMMENT ON COLUMN "sys_user_online"."uuid" IS 'UUID';
+COMMENT ON COLUMN "sys_user_online"."token" IS 'Token';
+COMMENT ON COLUMN "sys_user_online"."user_name" IS '用户名';
+COMMENT ON COLUMN "sys_user_online"."ip" IS 'IP';
+COMMENT ON COLUMN "sys_user_online"."explorer" IS '浏览器';
+COMMENT ON COLUMN "sys_user_online"."os" IS '操作系统';
+CREATE TABLE "sys_user_post" ("id" bigserial,"user_id" bigint NOT NULL,"post_id" bigint NOT NULL,PRIMARY KEY ("id"));
+CREATE INDEX IF NOT EXISTS "idx_sys_user_post_post_id" ON "sys_user_post" ("post_id");
+CREATE INDEX IF NOT EXISTS "idx_sys_user_post_user_id" ON "sys_user_post" ("user_id");
+COMMENT ON COLUMN "sys_user_post"."user_id" IS '用户ID';
+COMMENT ON COLUMN "sys_user_post"."post_id" IS '岗位ID';
+ALTER TABLE "sys_user" ADD CONSTRAINT "fk_sys_dept_users" FOREIGN KEY ("dept_id") REFERENCES "sys_dept"("id");
+

@@ -1,0 +1,55 @@
+server:
+  name: projecttemplate
+  http:
+    addr: 0.0.0.0:9988
+    timeout: 60s
+  grpc:
+    addr: 0.0.0.0:9989
+    timeout: 60s
+  log:
+    level: "info"
+    format: "console"
+    disable_caller: false
+    disable_stacktrace: false
+    output_paths: ["stdout"]
+    error_output_paths: ["stderr"]
+    rotation:
+      max_size: 50
+      max_backups: 5
+      max_age: 30
+      compress: true
+  tracing:
+    enabled: true
+    trace_id_header: "X-Trace-ID"
+    request_id_header: "X-Request-ID"
+    log_requests: true
+    log_responses: false
+
+data:
+  database:
+    driver: postgres
+    source: "host=127.0.0.1 user=projecttemplate password=projecttemplate dbname=projecttemplate port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    maxIdleConns: 10
+    maxOpenConns: 20
+    logLevel: "info"
+  redis:
+    mode: "auto"
+    addr: "127.0.0.1:6379"
+    password: ""
+    database: 1
+
+casbin:
+  # Prefer overriding via env in containers: RST_CASBIN_PATH=/app/hack/config/casbin_model.conf
+  path: "./docker/backend/config/casbin_model.conf"
+
+auth:
+  accessSecret: "your-secret-key"
+  accessExpire: 604800s
+  clientAccessExpire: 172800s
+
+dev:
+  enable_openapi: true
+  openapi_path: "./openapi.yaml"
+
+oss:
+  service: ""

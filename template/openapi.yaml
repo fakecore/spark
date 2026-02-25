@@ -1,0 +1,4910 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /api/v1/file/upload-url:
+        post:
+            tags:
+                - File
+            description: 生成文件上传URL
+            operationId: File_GenFileUploadUrl
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.GenFileUploadUrlRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GenFileUploadUrlReply'
+    /api/v1/file/upload/finished:
+        post:
+            tags:
+                - File
+            description: 文件上传完成回调接口
+            operationId: File_FileUploadCallback
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.FileUploadCallbackRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.FileUploadCallbackReply'
+    /api/v1/system/announcement:
+        post:
+            tags:
+                - Announcement
+            operationId: Announcement_CreateAnnouncement
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateAnnouncementRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateAnnouncementReply'
+    /api/v1/system/announcement/delete:
+        post:
+            tags:
+                - Announcement
+            operationId: Announcement_DeleteAnnouncement
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteAnnouncementRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteAnnouncementReply'
+    /api/v1/system/announcement/get:
+        get:
+            tags:
+                - Announcement
+            operationId: Announcement_GetAnnouncement
+            parameters:
+                - name: id
+                  in: query
+                  description: 公告ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetAnnouncementReply'
+    /api/v1/system/announcement/list:
+        get:
+            tags:
+                - Announcement
+            operationId: Announcement_ListAnnouncement
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: title
+                  in: query
+                  description: 公告标题，用于筛选
+                  schema:
+                    type: string
+                - name: type
+                  in: query
+                  description: 公告类型，用于筛选
+                  schema:
+                    type: integer
+                    format: int32
+                - name: status
+                  in: query
+                  description: 状态，用于筛选 0 未发布 1 已发布
+                  schema:
+                    type: integer
+                    format: int32
+                - name: beginTime
+                  in: query
+                  description: 开始时间
+                  schema:
+                    type: string
+                - name: endTime
+                  in: query
+                  description: 结束时间
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListAnnouncementReply'
+    /api/v1/system/announcement/update:
+        post:
+            tags:
+                - Announcement
+            operationId: Announcement_UpdateAnnouncement
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateAnnouncementRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateAnnouncementReply'
+    /api/v1/system/auth/login:
+        post:
+            tags:
+                - Auth
+            description: 用户登录
+            operationId: Auth_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.LoginReply'
+    /api/v1/system/auth/logout:
+        post:
+            tags:
+                - Auth
+            description: 用户登出
+            operationId: Auth_Logout
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.LogoutRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.LogoutReply'
+    /api/v1/system/config:
+        post:
+            tags:
+                - Config
+            operationId: Config_CreateConfig
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateConfigRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateConfigReply'
+    /api/v1/system/config/delete:
+        post:
+            tags:
+                - Config
+            operationId: Config_DeleteConfig
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteConfigRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteConfigReply'
+    /api/v1/system/config/get:
+        get:
+            tags:
+                - Config
+            operationId: Config_GetConfig
+            parameters:
+                - name: id
+                  in: query
+                  description: 参数ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetConfigReply'
+    /api/v1/system/config/list:
+        get:
+            tags:
+                - Config
+            operationId: Config_ListConfig
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: name
+                  in: query
+                  description: 名称，用于筛选
+                  schema:
+                    type: string
+                - name: key
+                  in: query
+                  description: 键名，用于筛选
+                  schema:
+                    type: string
+                - name: kind
+                  in: query
+                  description: 类型（0 系统, 1 用户），用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0 停用 1 正常
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListConfigReply'
+    /api/v1/system/config/update:
+        post:
+            tags:
+                - Config
+            operationId: Config_UpdateConfig
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateConfigRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateConfigReply'
+    /api/v1/system/dept:
+        post:
+            tags:
+                - Dept
+            operationId: Dept_CreateDept
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateDeptRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateDeptReply'
+    /api/v1/system/dept/delete:
+        post:
+            tags:
+                - Dept
+            operationId: Dept_DeleteDept
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteDeptRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteDeptReply'
+    /api/v1/system/dept/get:
+        get:
+            tags:
+                - Dept
+            operationId: Dept_GetDept
+            parameters:
+                - name: id
+                  in: query
+                  description: 部门ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetDeptReply'
+    /api/v1/system/dept/list:
+        get:
+            tags:
+                - Dept
+            operationId: Dept_ListDept
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: deptName
+                  in: query
+                  description: 部门名称，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0停用 1正常
+                  schema:
+                    type: integer
+                    format: int32
+                - name: parentId
+                  in: query
+                  description: 父部门ID，用于筛选
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListDeptReply'
+    /api/v1/system/dept/update:
+        post:
+            tags:
+                - Dept
+            operationId: Dept_UpdateDept
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateDeptRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateDeptReply'
+    /api/v1/system/dict/data:
+        post:
+            tags:
+                - Dict
+            description: 字典数据管理
+            operationId: Dict_CreateDictData
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateDictDataRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateDictDataReply'
+    /api/v1/system/dict/data/delete:
+        post:
+            tags:
+                - Dict
+            operationId: Dict_DeleteDictData
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteDictDataRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteDictDataReply'
+    /api/v1/system/dict/data/get:
+        get:
+            tags:
+                - Dict
+            operationId: Dict_GetDictData
+            parameters:
+                - name: id
+                  in: query
+                  description: 字典数据ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetDictDataReply'
+    /api/v1/system/dict/data/list:
+        get:
+            tags:
+                - Dict
+            operationId: Dict_ListDictData
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: dictTypeId
+                  in: query
+                  description: 字典类型ID，用于筛选
+                  schema:
+                    type: string
+                - name: dictType
+                  in: query
+                  description: 字典类型，用于筛选
+                  schema:
+                    type: string
+                - name: dictLabel
+                  in: query
+                  description: 字典标签，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0停用 1正常
+                  schema:
+                    type: integer
+                    format: int32
+                - name: isDefault
+                  in: query
+                  description: 是否默认 1是 0否
+                  schema:
+                    type: boolean
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListDictDataReply'
+    /api/v1/system/dict/data/update:
+        post:
+            tags:
+                - Dict
+            operationId: Dict_UpdateDictData
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateDictDataRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateDictDataReply'
+    /api/v1/system/dict/type:
+        post:
+            tags:
+                - Dict
+            description: 字典类型管理
+            operationId: Dict_CreateDictType
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateDictTypeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateDictTypeReply'
+    /api/v1/system/dict/type/delete:
+        post:
+            tags:
+                - Dict
+            operationId: Dict_DeleteDictType
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteDictTypeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteDictTypeReply'
+    /api/v1/system/dict/type/get:
+        get:
+            tags:
+                - Dict
+            operationId: Dict_GetDictType
+            parameters:
+                - name: id
+                  in: query
+                  description: 字典类型ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetDictTypeReply'
+    /api/v1/system/dict/type/list:
+        get:
+            tags:
+                - Dict
+            operationId: Dict_ListDictType
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: dictName
+                  in: query
+                  description: 字典名称，用于筛选
+                  schema:
+                    type: string
+                - name: dictType
+                  in: query
+                  description: 字典类型，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0停用 1正常
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListDictTypeReply'
+    /api/v1/system/dict/type/update:
+        post:
+            tags:
+                - Dict
+            operationId: Dict_UpdateDictType
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateDictTypeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateDictTypeReply'
+    /api/v1/system/log/login:
+        post:
+            tags:
+                - Log
+            description: 登录日志
+            operationId: Log_CreateLoginLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateLoginLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateLoginLogReply'
+    /api/v1/system/log/login/clear:
+        post:
+            tags:
+                - Log
+            operationId: Log_ClearLoginLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.ClearLoginLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ClearLoginLogReply'
+    /api/v1/system/log/login/delete:
+        post:
+            tags:
+                - Log
+            operationId: Log_DeleteLoginLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteLoginLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteLoginLogReply'
+    /api/v1/system/log/login/get:
+        get:
+            tags:
+                - Log
+            operationId: Log_GetLoginLog
+            parameters:
+                - name: id
+                  in: query
+                  description: 访问ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetLoginLogReply'
+    /api/v1/system/log/login/list:
+        get:
+            tags:
+                - Log
+            operationId: Log_ListLoginLog
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: ipaddr
+                  in: query
+                  description: IP地址，用于筛选
+                  schema:
+                    type: string
+                - name: userName
+                  in: query
+                  description: 用户名称，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态，用于筛选 0 失败 1 成功
+                  schema:
+                    type: integer
+                    format: int32
+                - name: beginTime
+                  in: query
+                  description: 开始时间
+                  schema:
+                    type: string
+                - name: endTime
+                  in: query
+                  description: 结束时间
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListLoginLogReply'
+    /api/v1/system/log/oper:
+        post:
+            tags:
+                - Log
+            description: 操作日志
+            operationId: Log_CreateOperLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateOperLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateOperLogReply'
+    /api/v1/system/log/oper/clear:
+        post:
+            tags:
+                - Log
+            operationId: Log_ClearOperLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.ClearOperLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ClearOperLogReply'
+    /api/v1/system/log/oper/delete:
+        post:
+            tags:
+                - Log
+            operationId: Log_DeleteOperLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteOperLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteOperLogReply'
+    /api/v1/system/log/oper/get:
+        get:
+            tags:
+                - Log
+            operationId: Log_GetOperLog
+            parameters:
+                - name: id
+                  in: query
+                  description: 日志ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetOperLogReply'
+    /api/v1/system/log/oper/list:
+        get:
+            tags:
+                - Log
+            operationId: Log_ListOperLog
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: title
+                  in: query
+                  description: 操作模块，用于筛选
+                  schema:
+                    type: string
+                - name: businessType
+                  in: query
+                  description: 业务类型，用于筛选
+                  schema:
+                    type: integer
+                    format: int32
+                - name: operName
+                  in: query
+                  description: 操作人员，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 操作状态，用于筛选 0失败 1成功
+                  schema:
+                    type: integer
+                    format: int32
+                - name: beginTime
+                  in: query
+                  description: 开始时间
+                  schema:
+                    type: string
+                - name: endTime
+                  in: query
+                  description: 结束时间
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListOperLogReply'
+    /api/v1/system/menu:
+        post:
+            tags:
+                - Menu
+            description: CreateMenu creates a new menu item in the system
+            operationId: Menu_CreateMenu
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateMenuReply'
+    /api/v1/system/menu/all:
+        get:
+            tags:
+                - Menu
+            description: ListAllMenu retrieves all menu items in the system as a tree structure
+            operationId: Menu_ListAllMenu
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListAllMenuReply'
+    /api/v1/system/menu/check:
+        post:
+            tags:
+                - Menu
+            description: |-
+                Added menu permission endpoints
+                 CheckMenuPermission checks if a user has permission to perform an action on
+                 a specific menu
+            operationId: Menu_CheckMenuPermission
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CheckMenuPermissionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CheckMenuPermissionReply'
+    /api/v1/system/menu/check/multi:
+        post:
+            tags:
+                - Menu
+            description: |-
+                CheckMultiplePermissions checks multiple menu permissions for a user in a
+                 single request
+            operationId: Menu_CheckMultiplePermissions
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CheckMultiplePermissionsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CheckMultiplePermissionsReply'
+    /api/v1/system/menu/delete:
+        post:
+            tags:
+                - Menu
+            description: DeleteMenu deletes a menu item by its ID
+            operationId: Menu_DeleteMenu
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteMenuReply'
+    /api/v1/system/menu/get:
+        get:
+            tags:
+                - Menu
+            description: GetMenu retrieves detailed information about a specific menu item
+            operationId: Menu_GetMenu
+            parameters:
+                - name: id
+                  in: query
+                  description: 菜单ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetMenuReply'
+    /api/v1/system/menu/list:
+        get:
+            tags:
+                - Menu
+            description: ListMenu retrieves a paginated list of menu items with optional filtering
+            operationId: Menu_ListMenu
+            parameters:
+                - name: currentPage
+                  in: query
+                  description: 当前页
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每页条数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: name
+                  in: query
+                  description: 菜单名称，用于筛选
+                  schema:
+                    type: string
+                - name: isShow
+                  in: query
+                  description: 状态筛选 0 隐藏 1 显示
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListMenuReply'
+    /api/v1/system/menu/update:
+        post:
+            tags:
+                - Menu
+            description: UpdateMenu updates an existing menu item's attributes
+            operationId: Menu_UpdateMenu
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateMenuReply'
+    /api/v1/system/message:
+        post:
+            tags:
+                - Message
+            operationId: Message_CreateMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateMessageReply'
+    /api/v1/system/message/delete:
+        post:
+            tags:
+                - Message
+            operationId: Message_DeleteMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteMessageReply'
+    /api/v1/system/message/get:
+        get:
+            tags:
+                - Message
+            operationId: Message_GetMessage
+            parameters:
+                - name: id
+                  in: query
+                  description: 消息ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetMessageReply'
+    /api/v1/system/message/list:
+        get:
+            tags:
+                - Message
+            operationId: Message_ListMessage
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: messageType
+                  in: query
+                  description: 消息类型，用于筛选
+                  schema:
+                    type: integer
+                    format: int32
+                - name: status
+                  in: query
+                  description: 状态，用于筛选 0 系统 1 对多
+                  schema:
+                    type: integer
+                    format: int32
+                - name: beginTime
+                  in: query
+                  description: 开始时间
+                  schema:
+                    type: string
+                - name: endTime
+                  in: query
+                  description: 结束时间
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListMessageReply'
+    /api/v1/system/message/read:
+        post:
+            tags:
+                - Message
+            operationId: Message_ReadMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.ReadMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ReadMessageReply'
+    /api/v1/system/message/update:
+        post:
+            tags:
+                - Message
+            operationId: Message_UpdateMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateMessageReply'
+    /api/v1/system/oauth/bind:
+        post:
+            tags:
+                - OAuth
+            description: 绑定第三方账号
+            operationId: OAuth_BindOAuth
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.OAuthBindRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthBindReply'
+    /api/v1/system/oauth/login:
+        post:
+            tags:
+                - OAuth
+            description: 登录获取token
+            operationId: OAuth_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.OAuthLoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthLoginReply'
+    /api/v1/system/oauth/logout:
+        post:
+            tags:
+                - OAuth
+            description: 登出
+            operationId: OAuth_Logout
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.OAuthLogoutRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthLogoutReply'
+    /api/v1/system/oauth/refresh:
+        post:
+            tags:
+                - OAuth
+            description: 刷新token
+            operationId: OAuth_RefreshToken
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.OAuthRefreshTokenRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthRefreshTokenReply'
+    /api/v1/system/oauth/unbind:
+        post:
+            tags:
+                - OAuth
+            description: 解绑第三方账号
+            operationId: OAuth_UnbindOAuth
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.OAuthUnbindRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthUnbindReply'
+    /api/v1/system/oauth/user/info:
+        get:
+            tags:
+                - OAuth
+            description: 获取用户信息
+            operationId: OAuth_GetUserInfo
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthGetUserInfoReply'
+    /api/v1/system/oauth/user/perms:
+        get:
+            tags:
+                - OAuth
+            description: 获取用户权限
+            operationId: OAuth_GetUserPerms
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthGetUserPermsReply'
+    /api/v1/system/oauth/user/routes:
+        get:
+            tags:
+                - OAuth
+            description: 获取用户路由
+            operationId: OAuth_GetUserRoutes
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.OAuthGetUserRoutesReply'
+    /api/v1/system/package:
+        post:
+            tags:
+                - Package
+            operationId: Package_CreatePackage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreatePackageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreatePackageReply'
+    /api/v1/system/package/delete:
+        post:
+            tags:
+                - Package
+            operationId: Package_DeletePackage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeletePackageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeletePackageReply'
+    /api/v1/system/package/get:
+        get:
+            tags:
+                - Package
+            operationId: Package_GetPackage
+            parameters:
+                - name: id
+                  in: query
+                  description: 套餐ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetPackageReply'
+    /api/v1/system/package/list:
+        get:
+            tags:
+                - Package
+            operationId: Package_ListPackage
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: packageName
+                  in: query
+                  description: 套餐名称，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0 停用 1 正常
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListPackageReply'
+    /api/v1/system/package/update:
+        post:
+            tags:
+                - Package
+            operationId: Package_UpdatePackage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdatePackageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdatePackageReply'
+    /api/v1/system/post:
+        post:
+            tags:
+                - Post
+            operationId: Post_CreatePost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreatePostRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreatePostReply'
+    /api/v1/system/post/delete:
+        post:
+            tags:
+                - Post
+            operationId: Post_DeletePost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeletePostRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeletePostReply'
+    /api/v1/system/post/get:
+        get:
+            tags:
+                - Post
+            operationId: Post_GetPost
+            parameters:
+                - name: id
+                  in: query
+                  description: 岗位ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetPostReply'
+    /api/v1/system/post/list:
+        get:
+            tags:
+                - Post
+            operationId: Post_ListPost
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: postCode
+                  in: query
+                  description: 岗位编码，用于筛选
+                  schema:
+                    type: string
+                - name: postName
+                  in: query
+                  description: 岗位名称，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0 停用 1 正常
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListPostReply'
+    /api/v1/system/post/update:
+        post:
+            tags:
+                - Post
+            operationId: Post_UpdatePost
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdatePostRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdatePostReply'
+    /api/v1/system/role:
+        post:
+            tags:
+                - Role
+            description: |-
+                CreateRole creates a new role with specified attributes and menu
+                 permissions
+            operationId: Role_CreateRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateRoleReply'
+    /api/v1/system/role/check:
+        post:
+            tags:
+                - Role
+            description: |-
+                CheckAPIPermission checks if a role has permission to access a specific API
+                 endpoint
+            operationId: Role_CheckAPIPermission
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CheckAPIPermissionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CheckAPIPermissionReply'
+    /api/v1/system/role/delete:
+        post:
+            tags:
+                - Role
+            description: DeleteRole deletes a role by its ID
+            operationId: Role_DeleteRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteRoleReply'
+    /api/v1/system/role/get:
+        get:
+            tags:
+                - Role
+            description: GetRole retrieves detailed information about a specific role
+            operationId: Role_GetRole
+            parameters:
+                - name: id
+                  in: query
+                  description: 角色ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetRoleReply'
+    /api/v1/system/role/list:
+        get:
+            tags:
+                - Role
+            description: ListRole retrieves a paginated list of roles with optional filtering
+            operationId: Role_ListRole
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: name
+                  in: query
+                  description: 角色名称，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0 停用 1 正常
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListRoleReply'
+    /api/v1/system/role/menu:
+        post:
+            tags:
+                - Role
+            description: UpdateRoleMenus updates the menu permissions for a specific role
+            operationId: Role_UpdateRoleMenus
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateRoleMenusRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateRoleMenusReply'
+    /api/v1/system/role/menus:
+        get:
+            tags:
+                - Role
+            description: ListRoleMenus retrieves the list of menu IDs assigned to a specific role
+            operationId: Role_ListRoleMenus
+            parameters:
+                - name: roleId
+                  in: query
+                  description: 角色ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListRoleMenusReply'
+    /api/v1/system/role/perm:
+        get:
+            tags:
+                - Role
+            description: |-
+                ListRolePermission retrieves all menu permissions assigned to a specific
+                 role
+            operationId: Role_ListRolePermission
+            parameters:
+                - name: roleId
+                  in: query
+                  description: 角色ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListRolePermissionReply'
+    /api/v1/system/role/scope:
+        post:
+            tags:
+                - Role
+            description: UpdateRoleDataScope updates the data scope permissions for a specific role
+            operationId: Role_UpdateRoleDataScope
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateRoleDataScopeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateRoleDataScopeReply'
+    /api/v1/system/role/update:
+        post:
+            tags:
+                - Role
+            description: UpdateRole updates an existing role's attributes and menu permissions
+            operationId: Role_UpdateRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateRoleReply'
+    /api/v1/system/role/user:
+        post:
+            tags:
+                - Role
+            description: UpdateUserRole updates the roles assigned to a specific user
+            operationId: Role_UpdateUserRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateUserRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateUserRoleReply'
+    /api/v1/system/role/user/permission:
+        get:
+            tags:
+                - Role
+            description: GetUserPermission retrieves all permissions for a specific user
+            operationId: Role_GetUserPermission
+            parameters:
+                - name: userId
+                  in: query
+                  description: 用户ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetUserPermissionReply'
+    /api/v1/system/role/users:
+        get:
+            tags:
+                - Role
+            description: ListUserRoles retrieves the list of role IDs assigned to a specific user
+            operationId: Role_ListUserRoles
+            parameters:
+                - name: userId
+                  in: query
+                  description: 用户ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListUserRolesReply'
+    /api/v1/system/user:
+        post:
+            tags:
+                - User
+            description: 创建用户
+            operationId: User_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.CreateUserReply'
+    /api/v1/system/user/delete:
+        post:
+            tags:
+                - User
+            description: 删除用户
+            operationId: User_DeleteUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.DeleteUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.DeleteUserReply'
+    /api/v1/system/user/get:
+        get:
+            tags:
+                - User
+            description: 获取用户详情
+            operationId: User_GetUser
+            parameters:
+                - name: id
+                  in: query
+                  description: 用户ID
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetUserReply'
+    /api/v1/system/user/list:
+        get:
+            tags:
+                - User
+            description: 获取用户列表
+            operationId: User_ListUser
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: name
+                  in: query
+                  description: 用户名，用于筛选
+                  schema:
+                    type: string
+                - name: nickname
+                  in: query
+                  description: 昵称，用于筛选
+                  schema:
+                    type: string
+                - name: mobile
+                  in: query
+                  description: 手机号，用于筛选
+                  schema:
+                    type: string
+                - name: status
+                  in: query
+                  description: 状态筛选 0 禁用 1 正常 2 未验证
+                  schema:
+                    type: integer
+                    format: int32
+                - name: deptId
+                  in: query
+                  description: 部门ID筛选
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListUserReply'
+    /api/v1/system/user/online/list:
+        get:
+            tags:
+                - UserOnline
+            operationId: UserOnline_ListUserOnline
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: 每页数量
+                  schema:
+                    type: integer
+                    format: int32
+                - name: current
+                  in: query
+                  description: 页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: ipaddr
+                  in: query
+                  description: IP地址，用于筛选
+                  schema:
+                    type: string
+                - name: userName
+                  in: query
+                  description: 用户名称，用于筛选
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ListUserOnlineReply'
+    /api/v1/system/user/online/logout:
+        post:
+            tags:
+                - UserOnline
+            operationId: UserOnline_ForceLogout
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.ForceLogoutRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ForceLogoutReply'
+    /api/v1/system/user/password/admin-change:
+        post:
+            tags:
+                - User
+            description: 管理员修改任意用户密码
+            operationId: User_AdminChangePassword
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.AdminChangePasswordRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.AdminChangePasswordReply'
+    /api/v1/system/user/password/change:
+        post:
+            tags:
+                - User
+            description: 修改密码
+            operationId: User_ChangePassword
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.ChangePasswordRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ChangePasswordReply'
+    /api/v1/system/user/password/reset:
+        post:
+            tags:
+                - User
+            description: 重置密码
+            operationId: User_ResetPassword
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.ResetPasswordRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.ResetPasswordReply'
+    /api/v1/system/user/profile:
+        get:
+            tags:
+                - User
+            description: 获取用户个人资料
+            operationId: User_GetUserProfile
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.GetUserProfileReply'
+    /api/v1/system/user/status:
+        post:
+            tags:
+                - User
+            description: 更新用户状态
+            operationId: User_UpdateUserStatus
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateUserStatusRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateUserStatusReply'
+    /api/v1/system/user/update:
+        post:
+            tags:
+                - User
+            description: 更新用户
+            operationId: User_UpdateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.system.v1.UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.system.v1.UpdateUserReply'
+components:
+    schemas:
+        api.system.v1.AdminChangePasswordReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 状态码 0成功 其它失败
+                    format: int32
+                msg:
+                    type: string
+                    description: 响应消息
+            description: 管理员修改任意用户密码响应
+        api.system.v1.AdminChangePasswordRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                newPassword:
+                    type: string
+            description: 管理员修改任意用户密码请求
+        api.system.v1.AnnouncementInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 公告ID
+                title:
+                    type: string
+                    description: 公告标题
+                content:
+                    type: string
+                    description: 公告内容
+                type:
+                    type: integer
+                    description: 公告类型（1通知 2公告）
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态 0 未发布 1 已发布
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                publisherId:
+                    type: string
+                    description: 发布者ID
+                publisherName:
+                    type: string
+                    description: 发布者名称
+                publishTime:
+                    type: string
+                    description: 发布时间
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+        api.system.v1.ChangePasswordReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 状态码
+                    format: int32
+                msg:
+                    type: string
+                    description: 响应消息
+            description: 修改密码响应
+        api.system.v1.ChangePasswordRequest:
+            type: object
+            properties:
+                oldPassword:
+                    type: string
+                    description: 旧密码
+                newPassword:
+                    type: string
+                    description: 新密码
+                verifyCode:
+                    type: string
+                    description: 验证码
+            description: 修改密码请求
+        api.system.v1.CheckAPIPermissionReply:
+            type: object
+            properties:
+                hasPermission:
+                    type: boolean
+                    description: 是否有权限
+        api.system.v1.CheckAPIPermissionRequest:
+            type: object
+            properties:
+                roleId:
+                    type: string
+                    description: 角色ID
+                path:
+                    type: string
+                    description: API路径
+                method:
+                    type: string
+                    description: HTTP方法
+        api.system.v1.CheckMenuPermissionReply:
+            type: object
+            properties:
+                hasPermission:
+                    type: boolean
+                    description: 是否有权限
+        api.system.v1.CheckMenuPermissionRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                    description: 用户ID
+                menuId:
+                    type: string
+                    description: 菜单ID
+                action:
+                    type: string
+                    description: 操作类型
+            description: Added menu permission messages
+        api.system.v1.CheckMultiplePermissionsReply:
+            type: object
+            properties:
+                results:
+                    type: object
+                    additionalProperties:
+                        type: boolean
+                    description: 权限检查结果，key为菜单ID，value为是否有权限
+        api.system.v1.CheckMultiplePermissionsRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                    description: 用户ID
+                permissions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.MenuPermission'
+                    description: 权限列表
+        api.system.v1.ClearLoginLogReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.system.v1.ClearLoginLogRequest:
+            type: object
+            properties: {}
+        api.system.v1.ClearOperLogReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.system.v1.ClearOperLogRequest:
+            type: object
+            properties: {}
+        api.system.v1.ConfigInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 参数ID
+                name:
+                    type: string
+                    description: 参数名称
+                key:
+                    type: string
+                    description: 参数键名
+                value:
+                    type: string
+                    description: 参数键值
+                kind:
+                    type: string
+                    description: 类型（0 系统, 1 用户）
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+        api.system.v1.CreateAnnouncementReply:
+            type: object
+            properties: {}
+            description: 创建公告响应
+        api.system.v1.CreateAnnouncementRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                    description: 公告标题
+                content:
+                    type: string
+                    description: 公告内容
+                type:
+                    type: integer
+                    description: 公告类型
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态 0 未发布 1 已发布
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                publishTime:
+                    type: string
+                    description: 发布时间
+            description: 创建公告请求
+        api.system.v1.CreateConfigReply:
+            type: object
+            properties: {}
+            description: 创建配置响应
+        api.system.v1.CreateConfigRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 参数名称
+                key:
+                    type: string
+                    description: 参数键名
+                value:
+                    type: string
+                    description: 参数键值
+                kind:
+                    type: string
+                    description: 类型（0 系统, 1 用户）
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 创建配置请求
+        api.system.v1.CreateDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.CreateDeptRequest:
+            type: object
+            properties:
+                parentId:
+                    type: string
+                    description: 父部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                leader:
+                    type: string
+                    description: 负责人
+                phone:
+                    type: string
+                    description: 联系电话
+                email:
+                    type: string
+                    description: 邮箱
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+        api.system.v1.CreateDictDataReply:
+            type: object
+            properties:
+                dictData:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.DictDataInfo'
+                    description: 字典数据信息
+            description: 创建字典数据响应
+        api.system.v1.CreateDictDataRequest:
+            type: object
+            properties:
+                dictTypeId:
+                    type: string
+                    description: 字典类型ID
+                dictLabel:
+                    type: string
+                    description: 字典标签
+                dictValue:
+                    type: string
+                    description: 字典键值
+                dictType:
+                    type: string
+                    description: 字典类型
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                cssClass:
+                    type: string
+                    description: 样式属性
+                listClass:
+                    type: string
+                    description: 表格回显样式
+                isDefault:
+                    type: boolean
+                    description: 是否默认 1是 0否
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 创建字典数据请求
+        api.system.v1.CreateDictTypeReply:
+            type: object
+            properties: {}
+            description: 创建字典类型响应
+        api.system.v1.CreateDictTypeRequest:
+            type: object
+            properties:
+                dictName:
+                    type: string
+                    description: 字典名称
+                dictCode:
+                    type: string
+                    description: 字典类型
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 创建字典类型请求
+        api.system.v1.CreateLoginLogReply:
+            type: object
+            properties:
+                log:
+                    $ref: '#/components/schemas/api.system.v1.LoginLogInfo'
+        api.system.v1.CreateLoginLogRequest:
+            type: object
+            properties:
+                userName:
+                    type: string
+                    description: 用户账号
+                ipaddr:
+                    type: string
+                    description: 登录IP地址
+                loginLocation:
+                    type: string
+                    description: 登录地点
+                browser:
+                    type: string
+                    description: 浏览器类型
+                os:
+                    type: string
+                    description: 操作系统
+                status:
+                    type: integer
+                    description: 登录状态 0失败 1成功
+                    format: int32
+                msg:
+                    type: string
+                    description: 提示消息
+            description: 创建登录日志请求
+        api.system.v1.CreateMenuReply:
+            type: object
+            properties: {}
+        api.system.v1.CreateMenuRequest:
+            type: object
+            properties:
+                pid:
+                    type: string
+                    description: 父ID
+                name:
+                    type: string
+                    description: 规则名称
+                title:
+                    type: string
+                    description: 规则名称
+                icon:
+                    type: string
+                    description: 图标
+                condition:
+                    type: string
+                    description: 条件
+                remark:
+                    type: string
+                    description: 备注
+                menuType:
+                    type: integer
+                    description: 类型 0目录 1菜单 2按钮
+                    format: int32
+                weight:
+                    type: integer
+                    description: 权重
+                    format: int32
+                isShow:
+                    type: integer
+                    description: 显示状态
+                    format: int32
+                path:
+                    type: string
+                    description: 路由地址
+                component:
+                    type: string
+                    description: 组件路径
+                isLink:
+                    type: integer
+                    description: 是否外链 1是 0否
+                    format: int32
+                moduleType:
+                    type: string
+                    description: 所属模块
+                modelId:
+                    type: integer
+                    description: 模型ID
+                    format: int32
+                isIframe:
+                    type: integer
+                    description: 是否内嵌iframe
+                    format: int32
+                isCached:
+                    type: integer
+                    description: 是否缓存
+                    format: int32
+                redirect:
+                    type: string
+                    description: 路由重定向地址
+                isAffix:
+                    type: integer
+                    description: 是否固定
+                    format: int32
+                linkUrl:
+                    type: string
+                    description: 链接地址
+        api.system.v1.CreateMessageReply:
+            type: object
+            properties:
+                message:
+                    $ref: '#/components/schemas/api.system.v1.MessageInfo'
+        api.system.v1.CreateMessageRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                    description: 消息标题
+                content:
+                    type: string
+                    description: 消息内容
+                messageType:
+                    type: integer
+                    description: 消息类型
+                    format: int32
+                priority:
+                    type: integer
+                    description: 优先级
+                    format: int32
+                receiverIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 接收者ID列表
+        api.system.v1.CreateOperLogReply:
+            type: object
+            properties:
+                log:
+                    $ref: '#/components/schemas/api.system.v1.OperLogInfo'
+        api.system.v1.CreateOperLogRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                    description: 操作模块
+                businessType:
+                    type: integer
+                    description: 业务类型
+                    format: int32
+                method:
+                    type: string
+                    description: 方法名称
+                requestMethod:
+                    type: string
+                    description: 请求方式
+                operatorType:
+                    type: string
+                    description: 操作类别
+                operName:
+                    type: string
+                    description: 操作人员
+                deptName:
+                    type: string
+                    description: 部门名称
+                operUrl:
+                    type: string
+                    description: 请求URL
+                operIp:
+                    type: string
+                    description: 主机地址
+                operLocation:
+                    type: string
+                    description: 操作地点
+                operParam:
+                    type: string
+                    description: 请求参数
+                jsonResult:
+                    type: string
+                    description: 返回参数
+                status:
+                    type: integer
+                    description: 操作状态
+                    format: int32
+                errorMsg:
+                    type: string
+                    description: 错误消息
+                costTime:
+                    type: string
+                    description: 消耗时间
+            description: 创建操作日志请求
+        api.system.v1.CreatePackageReply:
+            type: object
+            properties: {}
+        api.system.v1.CreatePackageRequest:
+            type: object
+            properties:
+                packageName:
+                    type: string
+                    description: 套餐名称
+                menuIds:
+                    type: string
+                    description: 菜单ID列表，逗号分隔
+                accountCount:
+                    type: integer
+                    description: 账号数量
+                    format: int32
+                storageSize:
+                    type: integer
+                    description: 存储空间（GB）
+                    format: int32
+                qps:
+                    type: integer
+                    description: 每秒请求数
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 创建套餐请求
+        api.system.v1.CreatePostReply:
+            type: object
+            properties: {}
+        api.system.v1.CreatePostRequest:
+            type: object
+            properties:
+                postCode:
+                    type: string
+                    description: 岗位编码
+                postName:
+                    type: string
+                    description: 岗位名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+        api.system.v1.CreateRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.CreateRoleRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 角色名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                dataScope:
+                    type: integer
+                    description: |-
+                        数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限
+                         4:本部门及以下数据权限)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                menuIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 菜单ID列表
+        api.system.v1.CreateUserReply:
+            type: object
+            properties:
+                user:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.UserInfo'
+                    description: 用户信息
+            description: 创建用户响应
+        api.system.v1.CreateUserRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 用户名
+                nickname:
+                    type: string
+                    description: 昵称
+                mobile:
+                    type: string
+                    description: 手机号
+                email:
+                    type: string
+                    description: 邮箱
+                avatar:
+                    type: string
+                    description: 头像
+                deptId:
+                    type: string
+                    description: 部门ID
+                birthday:
+                    type: integer
+                    description: 生日
+                    format: int32
+                roleIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色ID列表
+                postIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 岗位ID列表
+                status:
+                    type: integer
+                    description: 状态
+                    format: int32
+            description: 创建用户请求
+        api.system.v1.DeleteAnnouncementReply:
+            type: object
+            properties: {}
+            description: 删除公告响应
+        api.system.v1.DeleteAnnouncementRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 公告ID
+            description: 删除公告请求
+        api.system.v1.DeleteConfigReply:
+            type: object
+            properties: {}
+            description: 删除配置响应
+        api.system.v1.DeleteConfigRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 参数ID
+            description: 删除配置请求
+        api.system.v1.DeleteDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.DeleteDeptRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 部门ID
+        api.system.v1.DeleteDictDataReply:
+            type: object
+            properties: {}
+            description: 删除字典数据响应
+        api.system.v1.DeleteDictDataRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 字典数据ID
+            description: 删除字典数据请求
+        api.system.v1.DeleteDictTypeReply:
+            type: object
+            properties: {}
+            description: 删除字典类型响应
+        api.system.v1.DeleteDictTypeRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 字典类型ID
+            description: 删除字典类型请求
+        api.system.v1.DeleteLoginLogReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.system.v1.DeleteLoginLogRequest:
+            type: object
+            properties:
+                ids:
+                    type: array
+                    items:
+                        type: string
+                    description: 访问ID列表
+        api.system.v1.DeleteMenuReply:
+            type: object
+            properties: {}
+        api.system.v1.DeleteMenuRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 菜单ID
+        api.system.v1.DeleteMessageReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.system.v1.DeleteMessageRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 消息ID
+        api.system.v1.DeleteOperLogReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.system.v1.DeleteOperLogRequest:
+            type: object
+            properties:
+                ids:
+                    type: array
+                    items:
+                        type: string
+                    description: 日志ID列表
+        api.system.v1.DeletePackageReply:
+            type: object
+            properties: {}
+        api.system.v1.DeletePackageRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 套餐ID
+        api.system.v1.DeletePostReply:
+            type: object
+            properties: {}
+        api.system.v1.DeletePostRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 岗位ID
+        api.system.v1.DeleteRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.DeleteRoleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 角色ID
+        api.system.v1.DeleteUserReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    description: 是否成功
+            description: 删除用户响应
+        api.system.v1.DeleteUserRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+            description: 删除用户请求
+        api.system.v1.DeptInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 部门ID
+                parentId:
+                    type: string
+                    description: 父部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                leader:
+                    type: string
+                    description: 负责人
+                phone:
+                    type: string
+                    description: 联系电话
+                email:
+                    type: string
+                    description: 邮箱
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.DeptInfo'
+                    description: 子部门
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                ancestors:
+                    type: string
+                    description: 祖级列表
+        api.system.v1.DictDataInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 字典数据ID
+                dictTypeId:
+                    type: string
+                    description: 字典类型ID
+                dictLabel:
+                    type: string
+                    description: 字典标签
+                dictValue:
+                    type: string
+                    description: 字典键值
+                dictCode:
+                    type: string
+                    description: 字典类型
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                cssClass:
+                    type: string
+                    description: 样式属性
+                listClass:
+                    type: string
+                    description: 表格回显样式
+                isDefault:
+                    type: boolean
+                    description: 是否默认
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+            description: 字典数据信息
+        api.system.v1.DictTypeInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 字典类型ID
+                dictName:
+                    type: string
+                    description: 字典名称
+                dictCode:
+                    type: string
+                    description: 字典类型
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+            description: 字典类型信息
+        api.system.v1.FileUploadCallbackReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 处理状态码，0表示成功
+                    format: int32
+                message:
+                    type: string
+                    description: 处理状态信息
+                fileUrl:
+                    type: string
+                    description: 文件访问URL
+            description: 文件上传完成回调响应
+        api.system.v1.FileUploadCallbackRequest:
+            type: object
+            properties:
+                bucket:
+                    type: string
+                    description: 存储桶名称
+                object:
+                    type: string
+                    description: 文件对象名称(key)
+                etag:
+                    type: string
+                    description: 文件ETag
+                size:
+                    type: string
+                    description: 文件大小(字节)
+                mimeType:
+                    type: string
+                    description: 文件MIME类型
+                imageInfo:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.FileUploadCallbackRequest_ImageInfo'
+                    description: 图片信息
+                customVars:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: 自定义变量
+            description: 文件上传完成回调请求
+        api.system.v1.FileUploadCallbackRequest_ImageInfo:
+            type: object
+            properties:
+                height:
+                    type: integer
+                    format: int32
+                width:
+                    type: integer
+                    format: int32
+                format:
+                    type: string
+            description: 图片信息(如果是图片)
+        api.system.v1.ForceLogoutReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+            description: 强制退出响应
+        api.system.v1.ForceLogoutRequest:
+            type: object
+            properties:
+                tokenIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 会话编号列表
+            description: 强制退出请求
+        api.system.v1.GenFileUploadUrlReply:
+            type: object
+            properties:
+                sts:
+                    $ref: '#/components/schemas/api.system.v1.GenFileUploadUrlReply_Sts'
+                url:
+                    $ref: '#/components/schemas/api.system.v1.GenFileUploadUrlReply_Url'
+            description: 生成文件上传URL的响应
+        api.system.v1.GenFileUploadUrlReply_Sts:
+            type: object
+            properties:
+                accessKeyId:
+                    type: string
+                accessKeySecret:
+                    type: string
+                securityToken:
+                    type: string
+                region:
+                    type: string
+                bucketName:
+                    type: string
+                expiration:
+                    type: string
+                objectName:
+                    type: string
+                endpoint:
+                    type: string
+        api.system.v1.GenFileUploadUrlReply_Url:
+            type: object
+            properties:
+                url:
+                    type: string
+                method:
+                    type: string
+                expiration:
+                    type: string
+                signedHeaders:
+                    type: object
+                    additionalProperties:
+                        type: string
+        api.system.v1.GenFileUploadUrlRequest:
+            type: object
+            properties:
+                fileName:
+                    type: string
+                    description: 文件名
+                fileSize:
+                    type: string
+                    description: 文件大小（字节数）
+                mimeType:
+                    type: string
+                    description: MIME类型(如image/jpeg)
+                bizType:
+                    type: integer
+                    description: 桶权限类型(1=公开桶/2=私有桶)
+                    format: int32
+                usageType:
+                    type: string
+                    description: 业务用途(如avatar/contract/product_img,可选)
+                forceSts:
+                    type: boolean
+                    description: 强制使用STS方式上传
+                callback:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.GenFileUploadUrlRequest_Callback'
+                    description: 回调配置，如果设置会覆盖全局配置
+            description: 生成文件上传URL的请求
+        api.system.v1.GenFileUploadUrlRequest_Callback:
+            type: object
+            properties:
+                enable:
+                    type: boolean
+                    description: 是否启用回调
+                url:
+                    type: string
+                    description: 回调URL
+                body:
+                    type: string
+                    description: |-
+                        回调请求体，支持变量替换: $(key), $(bucket), $(etag), $(size),
+                         $(mimeType), $(imageInfo)等
+            description: 回调相关参数
+        api.system.v1.GetAnnouncementReply:
+            type: object
+            properties:
+                announcement:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.AnnouncementInfo'
+                    description: 公告信息
+            description: 获取公告响应
+        api.system.v1.GetConfigReply:
+            type: object
+            properties:
+                config:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.ConfigInfo'
+                    description: 配置信息
+            description: 获取配置响应
+        api.system.v1.GetDeptReply:
+            type: object
+            properties:
+                dept:
+                    $ref: '#/components/schemas/api.system.v1.DeptInfo'
+        api.system.v1.GetDictDataReply:
+            type: object
+            properties:
+                dictData:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.DictDataInfo'
+                    description: 字典数据信息
+            description: 获取字典数据响应
+        api.system.v1.GetDictTypeReply:
+            type: object
+            properties:
+                dictType:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.DictTypeInfo'
+                    description: 字典类型信息
+            description: 获取字典类型响应
+        api.system.v1.GetLoginLogReply:
+            type: object
+            properties:
+                log:
+                    $ref: '#/components/schemas/api.system.v1.LoginLogInfo'
+        api.system.v1.GetMenuReply:
+            type: object
+            properties:
+                menu:
+                    $ref: '#/components/schemas/api.system.v1.MenuInfo'
+        api.system.v1.GetMessageReply:
+            type: object
+            properties:
+                message:
+                    $ref: '#/components/schemas/api.system.v1.MessageInfo'
+        api.system.v1.GetOperLogReply:
+            type: object
+            properties:
+                log:
+                    $ref: '#/components/schemas/api.system.v1.OperLogInfo'
+        api.system.v1.GetPackageReply:
+            type: object
+            properties:
+                package:
+                    $ref: '#/components/schemas/api.system.v1.PackageInfo'
+        api.system.v1.GetPostReply:
+            type: object
+            properties:
+                post:
+                    $ref: '#/components/schemas/api.system.v1.PostInfo'
+        api.system.v1.GetRoleReply:
+            type: object
+            properties:
+                role:
+                    $ref: '#/components/schemas/api.system.v1.RoleInfo'
+        api.system.v1.GetUserPermissionReply:
+            type: object
+            properties:
+                menuIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 该用户拥有的菜单ID列表
+        api.system.v1.GetUserProfileReply:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/api.system.v1.UserProfile'
+            description: 获取用户个人资料响应
+        api.system.v1.GetUserReply:
+            type: object
+            properties:
+                user:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.UserInfo'
+                    description: 用户信息
+            description: 获取用户响应
+        api.system.v1.ListAllMenuReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.MenuInfo'
+                    description: 菜单列表（树形结构）
+        api.system.v1.ListAnnouncementReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.AnnouncementInfo'
+                    description: 公告列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+            description: 公告列表响应
+        api.system.v1.ListConfigReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.ConfigInfo'
+                    description: 参数列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+            description: 配置列表响应
+        api.system.v1.ListDeptReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.DeptInfo'
+                    description: 部门列表（树形结构）
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListDictDataReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.DictDataInfo'
+                    description: 字典数据列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+            description: 列表字典数据响应
+        api.system.v1.ListDictTypeReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.DictTypeInfo'
+                    description: 字典类型列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+            description: 列表字典类型响应
+        api.system.v1.ListLoginLogReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.LoginLogInfo'
+                    description: 登录日志列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListMenuReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.MenuInfo'
+                    description: 菜单列表（树形结构）
+                total:
+                    type: string
+                    description: 总条数
+        api.system.v1.ListMessageReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.MessageInfo'
+                    description: 消息列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListOperLogReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.OperLogInfo'
+                    description: 操作日志列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListPackageReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.PackageInfo'
+                    description: 套餐列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListPostReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.PostInfo'
+                    description: 岗位列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListRoleMenusReply:
+            type: object
+            properties:
+                menuIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 菜单ID
+        api.system.v1.ListRolePermissionReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.RoleMenuInfo'
+                    description: 角色权限列表
+        api.system.v1.ListRoleReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.RoleInfo'
+                    description: 角色列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+        api.system.v1.ListUserOnlineReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.UserOnlineInfo'
+                    description: 在线用户列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+            description: 获取在线用户列表响应
+        api.system.v1.ListUserReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.UserInfo'
+                    description: 用户列表
+                total:
+                    type: integer
+                    description: 总数
+                    format: int32
+            description: 获取用户列表响应
+        api.system.v1.ListUserRolesReply:
+            type: object
+            properties:
+                roleIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色ID
+        api.system.v1.LoginLogInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 访问ID
+                userName:
+                    type: string
+                    description: 用户账号
+                ipaddr:
+                    type: string
+                    description: 登录IP地址
+                loginLocation:
+                    type: string
+                    description: 登录地点
+                browser:
+                    type: string
+                    description: 浏览器类型
+                os:
+                    type: string
+                    description: 操作系统
+                status:
+                    type: integer
+                    description: 登录状态 0失败 1成功
+                    format: int32
+                msg:
+                    type: string
+                    description: 提示消息
+                loginTime:
+                    type: string
+                    description: 访问时间
+            description: 登录日志信息
+        api.system.v1.LoginReply:
+            type: object
+            properties:
+                token:
+                    type: string
+                    description: 访问令牌
+                expires:
+                    type: string
+                    description: 过期时间（秒）
+            description: 登录响应
+        api.system.v1.LoginRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: 用户名
+                password:
+                    type: string
+                    description: 密码
+            description: 登录请求
+        api.system.v1.LogoutReply:
+            type: object
+            properties: {}
+            description: 登出响应
+        api.system.v1.LogoutRequest:
+            type: object
+            properties: {}
+            description: 登出请求
+        api.system.v1.MenuInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: ID
+                pid:
+                    type: string
+                    description: 父ID
+                name:
+                    type: string
+                    description: 规则名称
+                title:
+                    type: string
+                    description: 规则名称
+                icon:
+                    type: string
+                    description: 图标
+                condition:
+                    type: string
+                    description: 条件
+                remark:
+                    type: string
+                    description: 备注
+                menuType:
+                    type: integer
+                    description: 类型 0目录 1菜单 2按钮
+                    format: int32
+                weight:
+                    type: integer
+                    description: 权重
+                    format: int32
+                isShow:
+                    type: integer
+                    description: 显示状态 0 隐藏 1 显示
+                    format: int32
+                path:
+                    type: string
+                    description: 路由地址
+                component:
+                    type: string
+                    description: 组件路径
+                isLink:
+                    type: integer
+                    description: 是否外链 1是 0否
+                    format: int32
+                moduleType:
+                    type: string
+                    description: 所属模块
+                modelId:
+                    type: integer
+                    description: 模型ID
+                    format: int32
+                isIframe:
+                    type: integer
+                    description: 是否内嵌iframe
+                    format: int32
+                isCached:
+                    type: integer
+                    description: 是否缓存
+                    format: int32
+                redirect:
+                    type: string
+                    description: 路由重定向地址
+                isAffix:
+                    type: integer
+                    description: 是否固定
+                    format: int32
+                linkUrl:
+                    type: string
+                    description: 链接地址
+                createdBy:
+                    type: string
+                    description: 创建者
+                updatedBy:
+                    type: string
+                    description: 更新者
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.MenuInfo'
+                    description: 子菜单
+        api.system.v1.MenuPermission:
+            type: object
+            properties:
+                menuId:
+                    type: string
+                    description: 菜单ID
+                action:
+                    type: string
+                    description: 操作类型
+        api.system.v1.MessageInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 消息ID
+                title:
+                    type: string
+                    description: 消息标题
+                content:
+                    type: string
+                    description: 消息内容
+                messageType:
+                    type: integer
+                    description: 消息类型（1系统消息 2通知公告）
+                    format: int32
+                priority:
+                    type: integer
+                    description: 优先级（1低 2中 3高）
+                    format: int32
+                senderId:
+                    type: string
+                    description: 发送者ID
+                senderName:
+                    type: string
+                    description: 发送者名称
+                receiverIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 接收者ID列表
+                receiverNames:
+                    type: array
+                    items:
+                        type: string
+                    description: 接收者名称列表
+                status:
+                    type: integer
+                    description: 状态（0未读 1已读）
+                    format: int32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+        api.system.v1.OAuthBindReply:
+            type: object
+            properties:
+                oauth:
+                    $ref: '#/components/schemas/api.system.v1.OAuthInfo'
+            description: 绑定第三方账号响应
+        api.system.v1.OAuthBindRequest:
+            type: object
+            properties:
+                provider:
+                    type: string
+                    description: 提供商
+                code:
+                    type: string
+                    description: 授权码
+                state:
+                    type: string
+                    description: 状态码
+            description: 绑定第三方账号请求
+        api.system.v1.OAuthGetUserInfoReply:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/api.system.v1.OAuthUserInfo'
+            description: 获取用户信息响应
+        api.system.v1.OAuthGetUserPermsReply:
+            type: object
+            properties:
+                permissions:
+                    type: array
+                    items:
+                        type: string
+                    description: 权限列表
+            description: 获取用户权限响应
+        api.system.v1.OAuthGetUserRoutesReply:
+            type: object
+            properties:
+                routes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.RouteInfo'
+                    description: 路由列表
+            description: 获取用户路由响应
+        api.system.v1.OAuthInfo:
+            type: object
+            properties:
+                provider:
+                    type: string
+                    description: 提供商（如：github、google、wechat等）
+                openId:
+                    type: string
+                    description: 开放ID
+                unionId:
+                    type: string
+                    description: 统一ID
+                nickname:
+                    type: string
+                    description: 昵称
+                avatar:
+                    type: string
+                    description: 头像
+                email:
+                    type: string
+                    description: 邮箱
+            description: 第三方账号信息
+        api.system.v1.OAuthLoginReply:
+            type: object
+            properties:
+                accessToken:
+                    type: string
+                    description: 访问令牌
+                tokenType:
+                    type: string
+                    description: 令牌类型
+                refreshToken:
+                    type: string
+                    description: 刷新令牌
+                expiresIn:
+                    type: string
+                    description: 过期时间
+            description: 登录响应
+        api.system.v1.OAuthLoginRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: 用户名
+                password:
+                    type: string
+                    description: 密码
+                code:
+                    type: string
+                    description: 验证码
+                uuid:
+                    type: string
+                    description: 唯一标识
+            description: 登录请求
+        api.system.v1.OAuthLogoutReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+            description: 登出响应
+        api.system.v1.OAuthLogoutRequest:
+            type: object
+            properties: {}
+            description: 登出请求
+        api.system.v1.OAuthRefreshTokenReply:
+            type: object
+            properties:
+                accessToken:
+                    type: string
+                    description: 访问令牌
+                tokenType:
+                    type: string
+                    description: 令牌类型
+                refreshToken:
+                    type: string
+                    description: 刷新令牌
+                expiresIn:
+                    type: string
+                    description: 过期时间
+            description: 刷新令牌响应
+        api.system.v1.OAuthRefreshTokenRequest:
+            type: object
+            properties:
+                refreshToken:
+                    type: string
+                    description: 刷新令牌
+            description: 刷新令牌请求
+        api.system.v1.OAuthUnbindReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+            description: 解绑第三方账号响应
+        api.system.v1.OAuthUnbindRequest:
+            type: object
+            properties:
+                provider:
+                    type: string
+                    description: 提供商
+            description: 解绑第三方账号请求
+        api.system.v1.OAuthUserInfo:
+            type: object
+            properties:
+                userId:
+                    type: string
+                    description: 用户ID
+                username:
+                    type: string
+                    description: 用户名
+                nickname:
+                    type: string
+                    description: 昵称
+                avatar:
+                    type: string
+                    description: 头像
+                deptId:
+                    type: string
+                    description: 部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                roles:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色列表
+                permissions:
+                    type: array
+                    items:
+                        type: string
+                    description: 权限列表
+            description: 用户信息
+        api.system.v1.OperLogInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 日志ID
+                title:
+                    type: string
+                    description: 操作模块
+                businessType:
+                    type: integer
+                    description: 业务类型（0其它 1新增 2修改 3删除）
+                    format: int32
+                method:
+                    type: string
+                    description: 方法名称
+                requestMethod:
+                    type: string
+                    description: 请求方式
+                operatorType:
+                    type: string
+                    description: 操作类别（0其它 1后台用户 2手机端用户）
+                operName:
+                    type: string
+                    description: 操作人员
+                deptName:
+                    type: string
+                    description: 部门名称
+                operUrl:
+                    type: string
+                    description: 请求URL
+                operIp:
+                    type: string
+                    description: 主机地址
+                operLocation:
+                    type: string
+                    description: 操作地点
+                operParam:
+                    type: string
+                    description: 请求参数
+                jsonResult:
+                    type: string
+                    description: 返回参数
+                status:
+                    type: integer
+                    description: 操作状态 0失败 1成功
+                    format: int32
+                errorMsg:
+                    type: string
+                    description: 错误消息
+                operTime:
+                    type: string
+                    description: 操作时间
+                costTime:
+                    type: string
+                    description: 消耗时间
+            description: 操作日志信息
+        api.system.v1.PackageInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 套餐ID
+                packageName:
+                    type: string
+                    description: 套餐名称
+                menuIds:
+                    type: string
+                    description: 菜单ID列表，逗号分隔
+                accountCount:
+                    type: integer
+                    description: 账号数量
+                    format: int32
+                storageSize:
+                    type: integer
+                    description: 存储空间（GB）
+                    format: int32
+                qps:
+                    type: integer
+                    description: 每秒请求数
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+            description: 套餐信息
+        api.system.v1.PostInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 岗位ID
+                postCode:
+                    type: string
+                    description: 岗位编码
+                postName:
+                    type: string
+                    description: 岗位名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+        api.system.v1.ReadMessageReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.system.v1.ReadMessageRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 消息ID
+        api.system.v1.ResetPasswordReply:
+            type: object
+            properties: {}
+            description: 重置密码响应
+        api.system.v1.ResetPasswordRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+                password:
+                    type: string
+            description: 重置密码请求
+        api.system.v1.RoleInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 角色ID
+                name:
+                    type: string
+                    description: 角色名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                dataScope:
+                    type: integer
+                    description: |-
+                        数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限
+                         4:本部门及以下数据权限)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+        api.system.v1.RoleMenuInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: ID
+                pid:
+                    type: string
+                    description: 父ID
+                name:
+                    type: string
+                    description: 规则名称
+                title:
+                    type: string
+                    description: 规则名称
+                icon:
+                    type: string
+                    description: 图标
+                condition:
+                    type: string
+                    description: 条件
+                remark:
+                    type: string
+                    description: 备注
+                menuType:
+                    type: integer
+                    description: 类型 0目录 1菜单 2按钮
+                    format: int32
+                weight:
+                    type: integer
+                    description: 权重
+                    format: int32
+                isShow:
+                    type: integer
+                    description: 显示状态 0 隐藏 1 显示
+                    format: int32
+                path:
+                    type: string
+                    description: 路由地址
+                component:
+                    type: string
+                    description: 组件路径
+                isLink:
+                    type: integer
+                    description: 是否外链 1是 0否
+                    format: int32
+                moduleType:
+                    type: string
+                    description: 所属模块
+                modelId:
+                    type: integer
+                    description: 模型ID
+                    format: int32
+                isIframe:
+                    type: integer
+                    description: 是否内嵌iframe
+                    format: int32
+                isCached:
+                    type: integer
+                    description: 是否缓存
+                    format: int32
+                redirect:
+                    type: string
+                    description: 路由重定向地址
+                isAffix:
+                    type: integer
+                    description: 是否固定
+                    format: int32
+                linkUrl:
+                    type: string
+                    description: 链接地址
+                createdBy:
+                    type: string
+                    description: 创建者
+                updatedBy:
+                    type: string
+                    description: 更新者
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.RoleMenuInfo'
+                    description: 子菜单
+        api.system.v1.RouteInfo:
+            type: object
+            properties:
+                path:
+                    type: string
+                    description: 路由路径
+                component:
+                    type: string
+                    description: 组件路径
+                name:
+                    type: string
+                    description: 路由名称
+                redirect:
+                    type: string
+                    description: 重定向地址
+                title:
+                    type: string
+                    description: 标题
+                icon:
+                    type: string
+                    description: 图标
+                hidden:
+                    type: boolean
+                    description: 是否隐藏
+                alwaysShow:
+                    type: boolean
+                    description: 是否总是显示
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.RouteInfo'
+                    description: 子路由
+            description: 路由信息
+        api.system.v1.SysRole:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 角色ID
+                name:
+                    type: string
+                    description: 角色名称
+                code:
+                    type: string
+                    description: 角色编码
+                remark:
+                    type: string
+                    description: 备注
+            description: 用户角色
+        api.system.v1.UpdateAnnouncementReply:
+            type: object
+            properties: {}
+            description: 更新公告响应
+        api.system.v1.UpdateAnnouncementRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 公告ID
+                title:
+                    type: string
+                    description: 公告标题
+                content:
+                    type: string
+                    description: 公告内容
+                type:
+                    type: integer
+                    description: 公告类型
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态 0 未发布 1 已发布
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                publishTime:
+                    type: string
+                    description: 发布时间
+            description: 更新公告请求
+        api.system.v1.UpdateConfigReply:
+            type: object
+            properties: {}
+            description: 更新配置响应
+        api.system.v1.UpdateConfigRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 参数ID
+                name:
+                    type: string
+                    description: 参数名称
+                key:
+                    type: string
+                    description: 参数键名
+                value:
+                    type: string
+                    description: 参数键值
+                kind:
+                    type: integer
+                    description: 类型（0 系统, 1 用户）
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 更新配置请求
+        api.system.v1.UpdateDeptReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateDeptRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                leader:
+                    type: string
+                    description: 负责人
+                phone:
+                    type: string
+                    description: 联系电话
+                email:
+                    type: string
+                    description: 邮箱
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+        api.system.v1.UpdateDictDataReply:
+            type: object
+            properties: {}
+            description: 更新字典数据响应
+        api.system.v1.UpdateDictDataRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 字典数据ID
+                dictTypeId:
+                    type: string
+                    description: 字典类型ID
+                dictLabel:
+                    type: string
+                    description: 字典标签
+                dictValue:
+                    type: string
+                    description: 字典键值
+                dictType:
+                    type: string
+                    description: 字典类型
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                cssClass:
+                    type: string
+                    description: 样式属性
+                listClass:
+                    type: string
+                    description: 表格回显样式
+                isDefault:
+                    type: boolean
+                    description: 是否默认 1是 0否
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 更新字典数据请求
+        api.system.v1.UpdateDictTypeReply:
+            type: object
+            properties: {}
+            description: 更新字典类型响应
+        api.system.v1.UpdateDictTypeRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 字典类型ID
+                dictName:
+                    type: string
+                    description: 字典名称
+                dictCode:
+                    type: string
+                    description: 字典类型
+                status:
+                    type: integer
+                    description: 状态 0停用 1正常
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 更新字典类型请求
+        api.system.v1.UpdateMenuReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateMenuRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 菜单ID
+                name:
+                    type: string
+                    description: 规则名称
+                title:
+                    type: string
+                    description: 规则名称
+                icon:
+                    type: string
+                    description: 图标
+                condition:
+                    type: string
+                    description: 条件
+                remark:
+                    type: string
+                    description: 备注
+                menuType:
+                    type: integer
+                    description: 类型 0目录 1菜单 2按钮
+                    format: int32
+                weight:
+                    type: integer
+                    description: 权重
+                    format: int32
+                isShow:
+                    type: integer
+                    description: 显示状态 0 隐藏 1 显示
+                    format: int32
+                path:
+                    type: string
+                    description: 路由地址
+                component:
+                    type: string
+                    description: 组件路径
+                isLink:
+                    type: integer
+                    description: 是否外链 1是 0否
+                    format: int32
+                moduleType:
+                    type: string
+                    description: 所属模块
+                modelId:
+                    type: integer
+                    description: 模型ID
+                    format: int32
+                isIframe:
+                    type: integer
+                    description: 是否内嵌iframe
+                    format: int32
+                isCached:
+                    type: integer
+                    description: 是否缓存
+                    format: int32
+                redirect:
+                    type: string
+                    description: 路由重定向地址
+                isAffix:
+                    type: integer
+                    description: 是否固定
+                    format: int32
+                linkUrl:
+                    type: string
+                    description: 链接地址
+        api.system.v1.UpdateMessageReply:
+            type: object
+            properties:
+                message:
+                    $ref: '#/components/schemas/api.system.v1.MessageInfo'
+        api.system.v1.UpdateMessageRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 消息ID
+                title:
+                    type: string
+                    description: 消息标题
+                content:
+                    type: string
+                    description: 消息内容
+                messageType:
+                    type: integer
+                    description: 消息类型
+                    format: int32
+                priority:
+                    type: integer
+                    description: 优先级
+                    format: int32
+                receiverIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 接收者ID列表
+        api.system.v1.UpdatePackageReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdatePackageRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 套餐ID
+                packageName:
+                    type: string
+                    description: 套餐名称
+                menuIds:
+                    type: string
+                    description: 菜单ID列表，逗号分隔
+                accountCount:
+                    type: integer
+                    description: 账号数量
+                    format: int32
+                storageSize:
+                    type: integer
+                    description: 存储空间（GB）
+                    format: int32
+                qps:
+                    type: integer
+                    description: 每秒请求数
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+            description: 更新套餐请求
+        api.system.v1.UpdatePostReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdatePostRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 岗位ID
+                postCode:
+                    type: string
+                    description: 岗位编码
+                postName:
+                    type: string
+                    description: 岗位名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+        api.system.v1.UpdateRoleDataScopeReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateRoleDataScopeRequest:
+            type: object
+            properties:
+                roleId:
+                    type: string
+                    description: 角色ID
+                dataScope:
+                    type: integer
+                    description: 数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限 4:个人
+                    format: int32
+                dataScopeDeptIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 当数据范围为自定义时，需要传入的部门ID
+        api.system.v1.UpdateRoleMenusReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateRoleMenusRequest:
+            type: object
+            properties:
+                roleId:
+                    type: string
+                menuIds:
+                    type: array
+                    items:
+                        type: string
+        api.system.v1.UpdateRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateRoleRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 角色ID
+                name:
+                    type: string
+                    description: 角色名称
+                sort:
+                    type: integer
+                    description: 显示顺序
+                    format: int32
+                status:
+                    type: integer
+                    description: 状态(0停用 1正常)
+                    format: int32
+                dataScope:
+                    type: integer
+                    description: 数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限 4:个人
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                menuIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 菜单ID列表
+        api.system.v1.UpdateUserReply:
+            type: object
+            properties:
+                user:
+                    allOf:
+                        - $ref: '#/components/schemas/api.system.v1.UserInfo'
+                    description: 用户信息
+            description: 更新用户响应
+        api.system.v1.UpdateUserRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+                nickname:
+                    type: string
+                    description: 昵称
+                mobile:
+                    type: string
+                    description: 手机号
+                email:
+                    type: string
+                    description: 邮箱
+                avatar:
+                    type: string
+                    description: 头像
+                deptId:
+                    type: string
+                    description: 部门ID
+                birthday:
+                    type: integer
+                    description: 生日
+                    format: int32
+                roleIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色ID列表
+                postIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 岗位ID列表
+                status:
+                    type: integer
+                    description: 状态
+                    format: int32
+            description: 更新用户请求
+        api.system.v1.UpdateUserRoleReply:
+            type: object
+            properties: {}
+        api.system.v1.UpdateUserRoleRequest:
+            type: object
+            properties:
+                userId:
+                    type: string
+                    description: 用户ID
+                roleIds:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色ID
+        api.system.v1.UpdateUserStatusReply:
+            type: object
+            properties: {}
+            description: 更新用户状态响应
+        api.system.v1.UpdateUserStatusRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+                status:
+                    type: integer
+                    description: 状态 0 禁用 1 正常 2 未验证
+                    format: int32
+            description: 更新用户状态请求
+        api.system.v1.UserInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+                name:
+                    type: string
+                    description: 用户名
+                nickname:
+                    type: string
+                    description: 昵称
+                mobile:
+                    type: string
+                    description: 手机号
+                email:
+                    type: string
+                    description: 邮箱
+                avatar:
+                    type: string
+                    description: 头像
+                sex:
+                    type: integer
+                    description: 性别 0 保密 1 男 2 女
+                    format: int32
+                birthday:
+                    type: integer
+                    description: 生日
+                    format: int32
+                status:
+                    type: integer
+                    description: 用户状态;0:禁用,1:正常,2:未验证
+                    format: int32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                deptId:
+                    type: string
+                    description: 部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.SysRole'
+                    description: 角色信息列表
+                postNames:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: '岗位名称映射 (key: post_id, value: post_name)'
+                isAdmin:
+                    type: integer
+                    description: 是否是管理员
+                    format: int32
+            description: 用户信息
+        api.system.v1.UserMenuInfo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: ID
+                pid:
+                    type: string
+                    description: 父ID
+                name:
+                    type: string
+                    description: 规则名称
+                title:
+                    type: string
+                    description: 规则名称
+                icon:
+                    type: string
+                    description: 图标
+                condition:
+                    type: string
+                    description: 条件
+                remark:
+                    type: string
+                    description: 备注
+                menuType:
+                    type: integer
+                    description: 类型 0目录 1菜单 2按钮
+                    format: int32
+                weight:
+                    type: integer
+                    description: 权重
+                    format: int32
+                isShow:
+                    type: integer
+                    description: 显示状态 0 隐藏 1 显示
+                    format: int32
+                path:
+                    type: string
+                    description: 路由地址
+                component:
+                    type: string
+                    description: 组件路径
+                isLink:
+                    type: integer
+                    description: 是否外链 1是 0否
+                    format: int32
+                moduleType:
+                    type: string
+                    description: 所属模块
+                modelId:
+                    type: integer
+                    description: 模型ID
+                    format: int32
+                isIframe:
+                    type: integer
+                    description: 是否内嵌iframe
+                    format: int32
+                isCached:
+                    type: integer
+                    description: 是否缓存
+                    format: int32
+                redirect:
+                    type: string
+                    description: 路由重定向地址
+                isAffix:
+                    type: integer
+                    description: 是否固定
+                    format: int32
+                linkUrl:
+                    type: string
+                    description: 链接地址
+                createdBy:
+                    type: string
+                    description: 创建者
+                updatedBy:
+                    type: string
+                    description: 更新者
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.UserMenuInfo'
+                    description: 子菜单
+        api.system.v1.UserOnlineInfo:
+            type: object
+            properties:
+                tokenId:
+                    type: string
+                    description: 会话编号
+                userId:
+                    type: string
+                    description: 用户ID
+                userName:
+                    type: string
+                    description: 用户名称
+                deptId:
+                    type: string
+                    description: 部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                ipaddr:
+                    type: string
+                    description: 登录IP地址
+                loginLocation:
+                    type: string
+                    description: 登录地点
+                browser:
+                    type: string
+                    description: 浏览器类型
+                os:
+                    type: string
+                    description: 操作系统
+                loginTime:
+                    type: string
+                    description: 登录时间
+            description: 在线用户信息
+        api.system.v1.UserProfile:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 用户ID
+                name:
+                    type: string
+                    description: 用户名
+                nickname:
+                    type: string
+                    description: 昵称
+                mobile:
+                    type: string
+                    description: 手机号
+                email:
+                    type: string
+                    description: 邮箱
+                avatar:
+                    type: string
+                    description: 头像
+                sex:
+                    type: integer
+                    description: 性别 0 保密 1 男 2 女
+                    format: int32
+                birthday:
+                    type: integer
+                    description: 生日
+                    format: int32
+                status:
+                    type: integer
+                    description: 用户状态;0:禁用,1:正常,2:未验证
+                    format: int32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                deptId:
+                    type: string
+                    description: 部门ID
+                deptName:
+                    type: string
+                    description: 部门名称
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.SysRole'
+                    description: 角色信息列表
+                postNames:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: '岗位名称映射 (key: post_id, value: post_name)'
+                menus:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.system.v1.UserMenuInfo'
+                    description: 菜单列表
+                isAdmin:
+                    type: integer
+                    description: 是否是管理员
+                    format: int32
+            description: 用户信息（个人资料，包含完整信息）
+tags:
+    - name: Announcement
+    - name: Auth
+      description: 认证服务
+    - name: Config
+    - name: Dept
+    - name: Dict
+    - name: File
+    - name: Log
+    - name: Menu
+    - name: Message
+    - name: OAuth
+    - name: Package
+    - name: Post
+    - name: Role
+    - name: User
+      description: 用户服务
+    - name: UserOnline

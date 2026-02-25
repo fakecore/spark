@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service Package {
+  rpc CreatePackage(CreatePackageRequest) returns (CreatePackageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/package"
+      body : "*"
+    };
+  }
+  rpc UpdatePackage(UpdatePackageRequest) returns (UpdatePackageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/package/update"
+      body : "*"
+    };
+  }
+  rpc DeletePackage(DeletePackageRequest) returns (DeletePackageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/package/delete"
+      body : "*"
+    };
+  }
+  rpc GetPackage(GetPackageRequest) returns (GetPackageReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/package/get"
+    };
+  }
+  rpc ListPackage(ListPackageRequest) returns (ListPackageReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/package/list"
+    };
+  }
+}
+
+// 套餐信息
+message PackageInfo {
+  // 套餐ID
+  int64 id = 1;
+  // 套餐名称
+  string package_name = 2;
+  // 菜单ID列表，逗号分隔
+  string menu_ids = 3;
+  // 账号数量
+  int32 account_count = 4;
+  // 存储空间（GB）
+  int32 storage_size = 5;
+  // 每秒请求数
+  int32 qps = 6;
+  // 状态(0停用 1正常)
+  int32 status = 7;
+  // 备注
+  optional string remark = 8;
+  // 创建时间
+  int64 created_at = 9;
+  // 更新时间
+  int64 updated_at = 10;
+}
+
+// 创建套餐请求
+message CreatePackageRequest {
+  // 套餐名称
+  string package_name = 1;
+  // 菜单ID列表，逗号分隔
+  string menu_ids = 2;
+  // 账号数量
+  int32 account_count = 3;
+  // 存储空间（GB）
+  int32 storage_size = 4;
+  // 每秒请求数
+  int32 qps = 5;
+  // 状态(0停用 1正常)
+  int32 status = 6;
+  // 备注
+  optional string remark = 7;
+}
+
+message CreatePackageReply {}
+
+// 更新套餐请求
+message UpdatePackageRequest {
+  // 套餐ID
+  int64 id = 1;
+  // 套餐名称
+  string package_name = 2;
+  // 菜单ID列表，逗号分隔
+  string menu_ids = 3;
+  // 账号数量
+  int32 account_count = 4;
+  // 存储空间（GB）
+  int32 storage_size = 5;
+  // 每秒请求数
+  int32 qps = 6;
+  // 状态(0停用 1正常)
+  int32 status = 7;
+  // 备注
+  optional string remark = 8;
+}
+
+message UpdatePackageReply {}
+
+message DeletePackageRequest {
+  // 套餐ID
+  int64 id = 1;
+}
+
+message DeletePackageReply {}
+
+message GetPackageRequest {
+  // 套餐ID
+  int64 id = 1;
+}
+
+message GetPackageReply { PackageInfo package = 1; }
+
+message ListPackageRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 套餐名称，用于筛选
+  string package_name = 3;
+  // 状态筛选 0 停用 1 正常
+  int32 status = 4 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+}
+
+message ListPackageReply {
+  // 套餐列表
+  repeated PackageInfo items = 1;
+  // 总数
+  int32 total = 2;
+}

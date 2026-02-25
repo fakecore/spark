@@ -1,0 +1,89 @@
+# Template variables configuration
+# These variables will be replaced in template files using Go template syntax
+# Example: {{.ProjectName}}, {{.ModuleName}}, etc.
+
+variables:
+  - name: ProjectName
+    description: "项目名称 (用于显示、Docker镜像等)"
+    prompt: "项目名称"
+    default: "myproject"
+    env: "PROJECT_NAME"
+
+  - name: ModuleName
+    description: "Go module 名称"
+    prompt: "Go module 名"
+    default: "github.com/user/myproject"
+    env: "MODULE_NAME"
+
+  - name: DBName
+    description: "PostgreSQL 数据库名"
+    prompt: "数据库名"
+    default: "myproject"
+    env: "DB_NAME"
+
+  - name: DBUser
+    description: "PostgreSQL 用户名"
+    prompt: "数据库用户"
+    default: "myproject"
+    env: "DB_USER"
+
+  - name: DBPassword
+    description: "PostgreSQL 密码"
+    prompt: "数据库密码"
+    default: "myproject"
+    env: "DB_PASSWORD"
+
+  - name: DBPort
+    description: "PostgreSQL 端口"
+    prompt: "数据库端口"
+    default: "5432"
+    env: "DB_PORT"
+
+  - name: RedisPort
+    description: "Redis 端口"
+    prompt: "Redis 端口"
+    default: "6379"
+    env: "REDIS_PORT"
+
+  - name: BackendPort
+    description: "后端 HTTP 端口"
+    prompt: "后端端口"
+    default: "8080"
+    env: "BACKEND_PORT"
+
+  - name: FrontendPort
+    description: "前端端口"
+    prompt: "前端端口"
+    default: "9001"
+    env: "FRONTEND_PORT"
+
+  - name: Description
+    description: "项目描述"
+    prompt: "项目描述"
+    default: "My awesome project"
+    env: "DESCRIPTION"
+
+  - name: Author
+    description: "作者"
+    prompt: "作者"
+    default: ""
+    env: "AUTHOR"
+
+  - name: Year
+    description: "年份"
+    prompt: "年份"
+    default: "2025"
+    env: "YEAR"
+
+  - name: Version
+    description: "项目版本"
+    prompt: "版本"
+    default: "1.0.0"
+    env: "VERSION"
+
+# Derived values (computed from other variables)
+derived:
+  ProjectNameLower: "{{.ProjectName | lower}}"
+  ProjectNameSnake: "{{.ProjectName | toSnake}}"
+  ProjectNameKebab: "{{.ProjectName | toKebab}}"
+  EnvPrefix: "{{.ProjectName | upper}}_"

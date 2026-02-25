@@ -1,0 +1,134 @@
+{
+  "BIZ_PERMISSION_DENIED": {
+    "other": "权限不足：您没有执行此操作的权限"
+  },
+  "BIZ_INVALID_CREDENTIALS": {
+    "other": "用户名或密码错误"
+  },
+  "BIZ_USER_DISABLED": {
+    "other": "用户账户已被禁用"
+  },
+  "BIZ_NO_ROLE_ASSIGNED": {
+    "other": "用户未分配角色"
+  },
+  "BIZ_ALL_ROLES_DISABLED": {
+    "other": "用户所有角色均已被禁用"
+  },
+  "BIZ_INVALID_OPERATION": {
+    "other": "无效的操作：{{.Reason}}"
+  },
+  "BIZ_INVALID_STATUS": {
+    "other": "无效的状态：{{.Status}}"
+  },
+
+  "RESOURCE_NOT_FOUND": {
+    "other": "{{.ResourceType}}不存在"
+  },
+  "RESOURCE_USER_NOT_FOUND": {
+    "other": "用户 {{.ID}} 不存在"
+  },
+  "RESOURCE_CONFIG_NOT_FOUND": {
+    "other": "配置项 '{{.Key}}' 不存在"
+  },
+  "RESOURCE_ROLE_NOT_FOUND": {
+    "other": "角色 {{.ID}} 不存在"
+  },
+  "RESOURCE_MENU_NOT_FOUND": {
+    "other": "菜单 {{.ID}} 不存在"
+  },
+  "RESOURCE_DICT_NOT_FOUND": {
+    "other": "字典 {{.ID}} 不存在"
+  },
+  "RESOURCE_DEPT_NOT_FOUND": {
+    "other": "部门 {{.ID}} 不存在"
+  },
+  "RESOURCE_POST_NOT_FOUND": {
+    "other": "岗位 {{.ID}} 不存在"
+  },
+
+  "DUPLICATE_RESOURCE": {
+    "other": "{{.ResourceType}}已存在"
+  },
+  "DUPLICATE_USERNAME": {
+    "other": "用户名 '{{.Username}}' 已存在"
+  },
+  "DUPLICATE_CONFIG_KEY": {
+    "other": "配置键 '{{.Key}}' 已存在"
+  },
+  "DUPLICATE_ROLE": {
+    "other": "角色 '{{.RoleName}}' 已存在"
+  },
+  "DUPLICATE_MENU_NAME": {
+    "other": "菜单名称 '{{.MenuName}}' 已存在"
+  },
+  "DUPLICATE_DICT_CODE": {
+    "other": "字典编码 '{{.DictCode}}' 已存在"
+  },
+  "DUPLICATE_POST_CODE": {
+    "other": "岗位编码 '{{.PostCode}}' 已存在"
+  },
+  "DUPLICATE_DEPT_NAME": {
+    "other": "部门名称 '{{.DeptName}}' 已存在"
+  },
+
+  "VALIDATION_ERROR": {
+    "other": "字段 '{{.Field}}' 验证失败：{{.Reason}}"
+  },
+  "VALIDATION_REQUIRED_FIELD": {
+    "other": "必填字段 '{{.Field}}' 缺失"
+  },
+  "VALIDATION_INVALID_FORMAT": {
+    "other": "字段 '{{.Field}}' 格式无效"
+  },
+  "VALIDATION_OUT_OF_RANGE": {
+    "other": "字段 '{{.Field}}' 的值超出范围"
+  },
+  "VALIDATION_INVALID_PARAM": {
+    "other": "无效参数：{{.Param}}"
+  },
+
+  "RELATION_NOT_FOUND": {
+    "other": "{{.SourceType}} {{.SourceID}} 与 {{.TargetType}} {{.TargetID}} 之间不存在关联"
+  },
+  "DATA_INCONSISTENCY": {
+    "other": "数据不一致：{{.Description}}"
+  },
+  "INVALID_RELATION": {
+    "other": "{{.SourceType}} 与 {{.TargetType}} 之间的关联无效"
+  },
+  "CIRCULAR_REFERENCE": {
+    "other": "检测到循环引用"
+  },
+
+  "SYSTEM_ERROR": {
+    "other": "系统错误"
+  },
+  "SYSTEM_DATABASE_ERROR": {
+    "other": "数据库操作失败：{{.Operation}}"
+  },
+  "SYSTEM_REDIS_ERROR": {
+    "other": "缓存操作失败：{{.Operation}}"
+  },
+  "SYSTEM_TIMEOUT": {
+    "other": "请求超时，请重试"
+  },
+  "SYSTEM_NETWORK_ERROR": {
+    "other": "网络错误，请检查网络连接"
+  },
+  "SYSTEM_INTERNAL_ERROR": {
+    "other": "服务器内部错误"
+  },
+  "SYSTEM_TRANSACTION_ERROR": {
+    "other": "事务处理失败：{{.Operation}}"
+  },
+  "SYSTEM_JSON_ERROR": {
+    "other": "JSON 处理错误"
+  },
+
+  "SUCCESS": {
+    "other": "操作成功"
+  },
+  "UNKNOWN_ERROR": {
+    "other": "未知错误"
+  }
+}

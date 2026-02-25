@@ -1,0 +1,134 @@
+{
+  "BIZ_PERMISSION_DENIED": {
+    "other": "Permission denied: you don't have permission to perform this action"
+  },
+  "BIZ_INVALID_CREDENTIALS": {
+    "other": "Invalid username or password"
+  },
+  "BIZ_USER_DISABLED": {
+    "other": "User account is disabled"
+  },
+  "BIZ_NO_ROLE_ASSIGNED": {
+    "other": "No role assigned to user"
+  },
+  "BIZ_ALL_ROLES_DISABLED": {
+    "other": "All user roles are disabled"
+  },
+  "BIZ_INVALID_OPERATION": {
+    "other": "Invalid operation: {{.Reason}}"
+  },
+  "BIZ_INVALID_STATUS": {
+    "other": "Invalid status: {{.Status}}"
+  },
+
+  "RESOURCE_NOT_FOUND": {
+    "other": "{{.ResourceType}} not found"
+  },
+  "RESOURCE_USER_NOT_FOUND": {
+    "other": "User {{.ID}} not found"
+  },
+  "RESOURCE_CONFIG_NOT_FOUND": {
+    "other": "Config '{{.Key}}' not found"
+  },
+  "RESOURCE_ROLE_NOT_FOUND": {
+    "other": "Role {{.ID}} not found"
+  },
+  "RESOURCE_MENU_NOT_FOUND": {
+    "other": "Menu {{.ID}} not found"
+  },
+  "RESOURCE_DICT_NOT_FOUND": {
+    "other": "Dictionary {{.ID}} not found"
+  },
+  "RESOURCE_DEPT_NOT_FOUND": {
+    "other": "Department {{.ID}} not found"
+  },
+  "RESOURCE_POST_NOT_FOUND": {
+    "other": "Post {{.ID}} not found"
+  },
+
+  "DUPLICATE_RESOURCE": {
+    "other": "{{.ResourceType}} already exists"
+  },
+  "DUPLICATE_USERNAME": {
+    "other": "Username '{{.Username}}' already exists"
+  },
+  "DUPLICATE_CONFIG_KEY": {
+    "other": "Config key '{{.Key}}' already exists"
+  },
+  "DUPLICATE_ROLE": {
+    "other": "Role '{{.RoleName}}' already exists"
+  },
+  "DUPLICATE_MENU_NAME": {
+    "other": "Menu name '{{.MenuName}}' already exists"
+  },
+  "DUPLICATE_DICT_CODE": {
+    "other": "Dictionary code '{{.DictCode}}' already exists"
+  },
+  "DUPLICATE_POST_CODE": {
+    "other": "Post code '{{.PostCode}}' already exists"
+  },
+  "DUPLICATE_DEPT_NAME": {
+    "other": "Department name '{{.DeptName}}' already exists"
+  },
+
+  "VALIDATION_ERROR": {
+    "other": "Validation failed for field '{{.Field}}': {{.Reason}}"
+  },
+  "VALIDATION_REQUIRED_FIELD": {
+    "other": "Required field '{{.Field}}' is missing"
+  },
+  "VALIDATION_INVALID_FORMAT": {
+    "other": "Invalid format for field '{{.Field}}'"
+  },
+  "VALIDATION_OUT_OF_RANGE": {
+    "other": "Value for field '{{.Field}}' is out of range"
+  },
+  "VALIDATION_INVALID_PARAM": {
+    "other": "Invalid parameter: {{.Param}}"
+  },
+
+  "RELATION_NOT_FOUND": {
+    "other": "{{.SourceType}} {{.SourceID}} has no relation to {{.TargetType}} {{.TargetID}}"
+  },
+  "DATA_INCONSISTENCY": {
+    "other": "Data inconsistency detected: {{.Description}}"
+  },
+  "INVALID_RELATION": {
+    "other": "Invalid relation between {{.SourceType}} and {{.TargetType}}"
+  },
+  "CIRCULAR_REFERENCE": {
+    "other": "Circular reference detected"
+  },
+
+  "SYSTEM_ERROR": {
+    "other": "System error occurred"
+  },
+  "SYSTEM_DATABASE_ERROR": {
+    "other": "Database error during {{.Operation}}"
+  },
+  "SYSTEM_REDIS_ERROR": {
+    "other": "Cache error during {{.Operation}}"
+  },
+  "SYSTEM_TIMEOUT": {
+    "other": "Request timeout, please try again"
+  },
+  "SYSTEM_NETWORK_ERROR": {
+    "other": "Network error, please check your connection"
+  },
+  "SYSTEM_INTERNAL_ERROR": {
+    "other": "Internal server error"
+  },
+  "SYSTEM_TRANSACTION_ERROR": {
+    "other": "Transaction error during {{.Operation}}"
+  },
+  "SYSTEM_JSON_ERROR": {
+    "other": "JSON processing error"
+  },
+
+  "SUCCESS": {
+    "other": "Operation successful"
+  },
+  "UNKNOWN_ERROR": {
+    "other": "Unknown error occurred"
+  }
+}

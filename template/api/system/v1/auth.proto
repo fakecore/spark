@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+
+// 认证服务
+service Auth {
+  // 用户登录
+  rpc Login(LoginRequest) returns (LoginReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/auth/login"
+      body : "*"
+    };
+  }
+
+  // 用户登出
+  rpc Logout(LogoutRequest) returns (LogoutReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/auth/logout"
+      body : "*"
+    };
+  }
+}
+
+// 登录请求
+message LoginRequest {
+  // 用户名
+  string username = 1;
+  // 密码
+  string password = 2;
+}
+
+// 登录数据
+message LoginData {
+  // 访问令牌
+  string token = 1;
+  // 过期时间（秒）
+  int64 expires = 2;
+}
+
+// 登录响应
+message LoginReply {
+  // 访问令牌
+  string token = 1;
+  // 过期时间（秒）
+  int64 expires = 2;
+}
+
+// 登出请求
+message LogoutRequest {}
+
+// 登出响应
+message LogoutReply {}

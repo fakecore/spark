@@ -1,0 +1,44 @@
+# 模板忽略文件 - 这些文件不会被复制到生成的新项目中
+
+# 模板工具本身
+init.go
+.template-vars.yaml
+.templateignore
+README.md
+
+# 模板目录以外的内容
+bin/
+tool/
+cmd/templify/
+template-tool/
+
+# Git
+.git/
+.gitignore
+
+# Build artifacts
+dist/
+*.exe
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Dependencies
+vendor/
+go.sum
+
+# Documentation (可选择性复制)
+docs/

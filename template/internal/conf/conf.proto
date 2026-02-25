@@ -1,0 +1,163 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "spark/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+  Auth auth = 3;
+  Casbin casbin = 4;
+  OSS oss = 5;
+  Dev dev = 6;
+}
+
+message Server {
+  string name = 1;
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message Log {
+    string level = 1;                    // debug, info, warn, error
+    string format = 2;                   // json, console
+    bool disable_caller = 3;
+    bool disable_stacktrace = 4;
+    repeated string output_paths = 5;    // stdout, stderr, file paths
+    repeated string error_output_paths = 6;
+
+    message Rotation {
+      int32 max_size = 1;                // Maximum size in megabytes before rotation
+      int32 max_backups = 2;             // Maximum number of old log files to retain
+      int32 max_age = 3;                 // Maximum number of days to retain old log files
+      bool compress = 4;                 // Whether to compress old log files
+    }
+    Rotation rotation = 7;               // Log rotation configuration
+  }
+  message Tracing {
+    bool enabled = 1;
+    string trace_id_header = 2;          // Header name for trace ID (default: X-Trace-ID)
+    string request_id_header = 3;        // Header name for request ID (default: X-Request-ID)
+    bool log_requests = 4;               // Whether to log incoming requests
+    bool log_responses = 5;              // Whether to log outgoing responses
+    message OpenTelemetry {
+      string endpoint = 1;               // OTLP endpoint
+      string service_name = 2;
+      string service_version = 3;
+      map<string, string> resource_attributes = 4;
+    }
+    OpenTelemetry otel = 6;
+  }
+  HTTP http = 2;
+  GRPC grpc = 3;
+  Log log = 4;
+  Tracing tracing = 5;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+    int32 maxIdleConns = 3;
+    int32 maxOpenConns = 4;
+    string logLevel = 5;
+  }
+  message Redis {
+    string network = 1;
+    string addr = 2;
+    string max_idle = 3;
+    string max_active = 4;
+    string idle_timeout = 5;
+    google.protobuf.Duration read_timeout = 6;
+    google.protobuf.Duration write_timeout = 7;
+    bool enable_cluster = 8;
+    string username = 9;
+    string password = 10;
+    int32 database = 11;
+    // external: required, fail fast if Redis is unavailable
+    // auto (default): best-effort connect, fallback to in-memory store if Redis is down
+    // memory: always use in-memory store (single-process only)
+    string mode = 12; // external|auto|memory
+  }
+  Database database = 1;
+  Redis redis = 2;
+}
+
+message Auth {
+  string accessSecret = 1;
+  google.protobuf.Duration accessExpire = 2;
+  google.protobuf.Duration clientAccessExpire = 3; // 客户端登录token有效期
+}
+
+message Casbin { string path = 1; }
+
+message OSS {
+  string service = 1;
+  bool enableCdn = 2;
+  string cdn = 3;
+  message Callback {
+    bool enable = 1;
+    string url = 2;
+    string body = 3;
+    string bodyType = 4;
+  }
+  message FilePart { int64 partSize = 1; }
+  message Aliyun {
+    string endpoint = 1;
+    string accessKeyId = 2;
+    string accessKeySecret = 3;
+    string region = 4;
+    message Sts {
+      string accessKeyId = 1;
+      string accessKeySecret = 2;
+      string securityToken = 3;
+      string roleArn = 4;
+      string endpoint = 5;
+      string region = 6;
+      int64 expiration = 7;
+    }
+    message Bucket {
+      string name = 1;
+      string url = 2;
+      int32 bizType = 3;
+    }
+    repeated Bucket buckets = 5;
+    Sts sts = 6;
+  }
+  message Local { string path = 1; }
+  message Tencent {
+    string secretId = 1;
+    string secretKey = 2;
+    string region = 3;
+    string bucket = 4;
+  }
+  Callback callback = 6;
+  FilePart filePart = 7;
+  Aliyun aliyun = 8;
+  Local local = 9;
+  Tencent tencent = 10;
+  S3 s3 = 11;
+}
+
+message S3 {
+  string region = 1;
+  string bucket = 2;
+  string endpoint = 3;
+  string access_key_id = 4;
+  string secret_access_key = 5;
+  string session_token = 6;
+  bool force_path_style = 7;
+}
+
+message Dev {
+  bool enable_openapi = 1;        // Enable OpenAPI documentation endpoint
+  string openapi_path = 2;        // Path to openapi.yaml file (default: ./openapi.yaml)
+}

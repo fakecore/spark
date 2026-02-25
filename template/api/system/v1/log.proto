@@ -1,0 +1,277 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service Log {
+  // 操作日志
+  rpc CreateOperLog(CreateOperLogRequest) returns (CreateOperLogReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/log/oper"
+      body : "*"
+    };
+  }
+  rpc GetOperLog(GetOperLogRequest) returns (GetOperLogReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/log/oper/get"
+    };
+  }
+  rpc ListOperLog(ListOperLogRequest) returns (ListOperLogReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/log/oper/list"
+    };
+  }
+
+  rpc DeleteOperLog(DeleteOperLogRequest) returns (DeleteOperLogReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/log/oper/delete"
+      body : "*"
+    };
+  }
+  rpc ClearOperLog(ClearOperLogRequest) returns (ClearOperLogReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/log/oper/clear"
+      body : "*"
+    };
+  }
+
+  // 登录日志
+  rpc CreateLoginLog(CreateLoginLogRequest) returns (CreateLoginLogReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/log/login"
+      body : "*"
+    };
+  }
+  rpc GetLoginLog(GetLoginLogRequest) returns (GetLoginLogReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/log/login/get"
+    };
+  }
+  rpc ListLoginLog(ListLoginLogRequest) returns (ListLoginLogReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/log/login/list"
+    };
+  }
+  rpc DeleteLoginLog(DeleteLoginLogRequest) returns (DeleteLoginLogReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/log/login/delete"
+      body : "*"
+    };
+  }
+  rpc ClearLoginLog(ClearLoginLogRequest) returns (ClearLoginLogReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/log/login/clear"
+      body : "*"
+    };
+  }
+}
+
+// 操作日志信息
+message OperLogInfo {
+  // 日志ID
+  int64 id = 1;
+  // 操作模块
+  string title = 2;
+  // 业务类型（0其它 1新增 2修改 3删除）
+  int32 business_type = 3 [ (validate.rules).int32 = {in : [ 0, 1, 2, 3 ]} ];
+  // 方法名称
+  string method = 4;
+  // 请求方式
+  string request_method = 5;
+  // 操作类别（0其它 1后台用户 2手机端用户）
+  string operator_type = 6
+  [ (validate.rules).string = {in : [ "0", "1", "2" ]} ];
+  // 操作人员
+  string oper_name = 7;
+  // 部门名称
+  string dept_name = 8;
+  // 请求URL
+  string oper_url = 9;
+  // 主机地址
+  string oper_ip = 10;
+  // 操作地点
+  string oper_location = 11;
+  // 请求参数
+  string oper_param = 12;
+  // 返回参数
+  string json_result = 13;
+  // 操作状态 0失败 1成功
+  int32 status = 14;
+  // 错误消息
+  string error_msg = 15;
+  // 操作时间
+  int64 oper_time = 16;
+  // 消耗时间
+  int64 cost_time = 17;
+}
+
+// 登录日志信息
+message LoginLogInfo {
+  // 访问ID
+  int64 id = 1;
+  // 用户账号
+  string user_name = 2;
+  // 登录IP地址
+  string ipaddr = 3;
+  // 登录地点
+  string login_location = 4;
+  // 浏览器类型
+  string browser = 5;
+  // 操作系统
+  string os = 6;
+  // 登录状态 0失败 1成功
+  int32 status = 7;
+  // 提示消息
+  string msg = 8;
+  // 访问时间
+  int64 login_time = 9;
+}
+
+// 创建操作日志请求
+message CreateOperLogRequest {
+  // 操作模块
+  string title = 1;
+  // 业务类型
+  int32 business_type = 2 [ (validate.rules).int32 = {in : [ 0, 1, 2, 3 ]} ];
+  // 方法名称
+  string method = 3;
+  // 请求方式
+  string request_method = 4;
+  // 操作类别
+  string operator_type = 5
+  [ (validate.rules).string = {in : [ "0", "1", "2" ]} ];
+  // 操作人员
+  string oper_name = 6;
+  // 部门名称
+  string dept_name = 7;
+  // 请求URL
+  string oper_url = 8;
+  // 主机地址
+  string oper_ip = 9;
+  // 操作地点
+  string oper_location = 10;
+  // 请求参数
+  string oper_param = 11;
+  // 返回参数
+  string json_result = 12;
+  // 操作状态
+  int32 status = 13;
+  // 错误消息
+  string error_msg = 14;
+  // 消耗时间
+  int64 cost_time = 15;
+}
+
+message CreateOperLogReply { OperLogInfo log = 1; }
+
+message GetOperLogRequest {
+  // 日志ID
+  int64 id = 1;
+}
+
+message GetOperLogReply { OperLogInfo log = 1; }
+
+message ListOperLogRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 操作模块，用于筛选
+  string title = 3;
+  // 业务类型，用于筛选
+  int32 business_type = 4;
+  // 操作人员，用于筛选
+  string oper_name = 5;
+  // 操作状态，用于筛选 0失败 1成功
+  int32 status = 6 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 开始时间
+  int64 begin_time = 7;
+  // 结束时间
+  int64 end_time = 8;
+}
+
+message ListOperLogReply {
+  // 操作日志列表
+  repeated OperLogInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+message DeleteOperLogRequest {
+  // 日志ID列表
+  repeated int64 ids = 1;
+}
+
+message DeleteOperLogReply { bool success = 1; }
+
+message ClearOperLogRequest {}
+
+message ClearOperLogReply { bool success = 1; }
+
+// 创建登录日志请求
+message CreateLoginLogRequest {
+  // 用户账号
+  string user_name = 1;
+  // 登录IP地址
+  string ipaddr = 2;
+  // 登录地点
+  string login_location = 3;
+  // 浏览器类型
+  string browser = 4;
+  // 操作系统
+  string os = 5;
+  // 登录状态 0失败 1成功
+  int32 status = 6 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 提示消息
+  string msg = 7;
+}
+
+message CreateLoginLogReply { LoginLogInfo log = 1; }
+
+message GetLoginLogRequest {
+  // 访问ID
+  int64 id = 1;
+}
+
+message GetLoginLogReply { LoginLogInfo log = 1; }
+
+message ListLoginLogRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // IP地址，用于筛选
+  string ipaddr = 3;
+  // 用户名称，用于筛选
+  string user_name = 4;
+  // 状态，用于筛选 0 失败 1 成功
+  int32 status = 5 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 开始时间
+  int64 begin_time = 6;
+  // 结束时间
+  int64 end_time = 7;
+}
+
+message ListLoginLogReply {
+  // 登录日志列表
+  repeated LoginLogInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+message DeleteLoginLogRequest {
+  // 访问ID列表
+  repeated int64 ids = 1;
+}
+
+message DeleteLoginLogReply { bool success = 1; }
+
+message ClearLoginLogRequest {}
+
+message ClearLoginLogReply { bool success = 1; }

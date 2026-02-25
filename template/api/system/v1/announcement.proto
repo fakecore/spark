@@ -1,0 +1,156 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+
+service Announcement {
+  rpc CreateAnnouncement(CreateAnnouncementRequest)
+      returns (CreateAnnouncementReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/announcement"
+      body : "*"
+    };
+  }
+  rpc UpdateAnnouncement(UpdateAnnouncementRequest)
+      returns (UpdateAnnouncementReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/announcement/update"
+      body : "*"
+    };
+  }
+  rpc DeleteAnnouncement(DeleteAnnouncementRequest)
+      returns (DeleteAnnouncementReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/announcement/delete"
+      body : "*"
+    };
+  }
+  rpc GetAnnouncement(GetAnnouncementRequest) returns (GetAnnouncementReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/announcement/get"
+    };
+  }
+  rpc ListAnnouncement(ListAnnouncementRequest)
+      returns (ListAnnouncementReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/announcement/list"
+    };
+  }
+}
+
+message AnnouncementInfo {
+  // 公告ID
+  int64 id = 1;
+  // 公告标题
+  string title = 2;
+  // 公告内容
+  string content = 3;
+  // 公告类型（1通知 2公告）
+  int32 type = 4;
+  // 状态 0 未发布 1 已发布
+  int32 status = 5;
+  // 备注
+  optional string remark = 6;
+  // 发布者ID
+  int64 publisher_id = 7;
+  // 发布者名称
+  string publisher_name = 8;
+  // 发布时间
+  int64 publish_time = 9;
+  // 创建时间
+  int64 created_at = 10;
+  // 更新时间
+  int64 updated_at = 11;
+}
+
+// 创建公告请求
+message CreateAnnouncementRequest {
+  // 公告标题
+  string title = 1;
+  // 公告内容
+  string content = 2;
+  // 公告类型
+  int32 type = 3;
+  // 状态 0 未发布 1 已发布
+  int32 status = 4;
+  // 备注
+  optional string remark = 5;
+  // 发布时间
+  int64 publish_time = 6;
+}
+
+// 创建公告响应
+message CreateAnnouncementReply {}
+
+// 更新公告请求
+message UpdateAnnouncementRequest {
+  // 公告ID
+  int64 id = 1;
+  // 公告标题
+  string title = 2;
+  // 公告内容
+  string content = 3;
+  // 公告类型
+  int32 type = 4;
+  // 状态 0 未发布 1 已发布
+  int32 status = 5;
+  // 备注
+  optional string remark = 6;
+  // 发布时间
+  int64 publish_time = 7;
+}
+
+// 更新公告响应
+message UpdateAnnouncementReply {}
+
+// 删除公告请求
+message DeleteAnnouncementRequest {
+  // 公告ID
+  int64 id = 1;
+}
+
+// 删除公告响应
+message DeleteAnnouncementReply {}
+
+// 获取公告请求
+message GetAnnouncementRequest {
+  // 公告ID
+  int64 id = 1;
+}
+
+// 获取公告响应
+message GetAnnouncementReply {
+  // 公告信息
+  AnnouncementInfo announcement = 1;
+}
+
+// 公告列表请求
+message ListAnnouncementRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 公告标题，用于筛选
+  string title = 3;
+  // 公告类型，用于筛选
+  int32 type = 4;
+  // 状态，用于筛选 0 未发布 1 已发布
+  int32 status = 5;
+  // 开始时间
+  int64 begin_time = 6;
+  // 结束时间
+  int64 end_time = 7;
+}
+
+// 公告列表响应
+message ListAnnouncementReply {
+  // 公告列表
+  repeated AnnouncementInfo items = 1;
+  // 总数
+  int32 total = 2;
+}

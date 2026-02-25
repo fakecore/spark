@@ -1,0 +1,398 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+// 用户服务
+service User {
+  // 管理员修改任意用户密码
+  rpc AdminChangePassword(AdminChangePasswordRequest) returns (AdminChangePasswordReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/password/admin-change"
+      body : "*"
+    };
+  }
+  // 创建用户
+  rpc CreateUser(CreateUserRequest) returns (CreateUserReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user"
+      body : "*"
+    };
+  };
+
+  // 更新用户
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/update"
+      body : "*"
+    };
+  };
+
+  // 删除用户
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/delete"
+      body : "*"
+    };
+  };
+
+  // 获取用户详情
+  rpc GetUser(GetUserRequest) returns (GetUserReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/user/get"
+    };
+  };
+
+  // 获取用户列表
+  rpc ListUser(ListUserRequest) returns (ListUserReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/user/list"
+    };
+  };
+
+  // 获取用户个人资料
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/user/profile"
+    };
+  };
+
+  // 更新用户状态
+  rpc UpdateUserStatus(UpdateUserStatusRequest)
+      returns (UpdateUserStatusReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/status"
+      body : "*"
+    };
+  };
+
+  // 重置密码
+  rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/password/reset"
+      body : "*"
+    };
+  };
+
+  // 修改密码
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/password/change"
+      body : "*"
+    };
+  };
+}
+
+// 用户角色
+message SysRole {
+  // 角色ID
+  int64 id = 1;
+  // 角色名称
+  string name = 2;
+  // 角色编码
+  string code = 3;
+  // 备注
+  optional string remark = 4;
+}
+
+message UserMenuInfo {
+  // ID
+  int64 id = 1;
+  // 父ID
+  int64 pid = 2;
+  // 规则名称
+  string name = 3;
+  // 规则名称
+  string title = 4;
+  // 图标
+  string icon = 5;
+  // 条件
+  string condition = 6;
+  // 备注
+  optional string remark = 7;
+  // 类型 0目录 1菜单 2按钮
+  int32 menu_type = 8 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+  // 权重
+  int32 weight = 9;
+  // 显示状态 0 隐藏 1 显示
+  int32 is_show = 10 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 路由地址
+  string path = 11;
+  // 组件路径
+  string component = 12;
+  // 是否外链 1是 0否
+  int32 is_link = 13 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 所属模块
+  string module_type = 14;
+  // 模型ID
+  int32 model_id = 15;
+  // 是否内嵌iframe
+  int32 is_iframe = 16 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 是否缓存
+  int32 is_cached = 17 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 路由重定向地址
+  string redirect = 18;
+  // 是否固定
+  int32 is_affix = 19 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 链接地址
+  string link_url = 20;
+  // 创建者
+  int64 created_by = 21;
+  // 更新者
+  int64 updated_by = 22;
+  // 创建时间
+  int64 created_at = 23;
+  // 更新时间
+  int64 updated_at = 24;
+  // 子菜单
+  repeated UserMenuInfo children = 25;
+}
+
+// 用户信息（个人资料，包含完整信息）
+message UserProfile {
+  // 用户ID
+  int64 id = 1;
+  // 用户名
+  string name = 2;
+  // 昵称
+  string nickname = 3;
+  // 手机号
+  string mobile = 4;
+  // 邮箱
+  string email = 5;
+  // 头像
+  string avatar = 6;
+  // 性别 0 保密 1 男 2 女
+  int32 sex = 7 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+  // 生日
+  int32 birthday = 8;
+  // 用户状态;0:禁用,1:正常,2:未验证
+  int32 status = 9 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+  // 创建时间
+  int64 created_at = 10;
+  // 更新时间
+  int64 updated_at = 11;
+  // 部门ID
+  int64 dept_id = 12;
+  // 部门名称
+  string dept_name = 13;
+  // 角色信息列表
+  repeated SysRole roles = 14;
+  // 岗位名称映射 (key: post_id, value: post_name)
+  map<int64, string> post_names = 15;
+  // 菜单列表
+  repeated UserMenuInfo menus = 16;
+  // 是否是管理员
+  int32 is_admin = 17;
+}
+
+// 用户信息
+message UserInfo {
+  // 用户ID
+  int64 id = 1;
+  // 用户名
+  string name = 2;
+  // 昵称
+  string nickname = 3;
+  // 手机号
+  string mobile = 4;
+  // 邮箱
+  string email = 5;
+  // 头像
+  string avatar = 6;
+  // 性别 0 保密 1 男 2 女
+  int32 sex = 7 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+  // 生日
+  int32 birthday = 8;
+  // 用户状态;0:禁用,1:正常,2:未验证
+  int32 status = 9 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+  // 创建时间
+  int64 created_at = 10;
+  // 更新时间
+  int64 updated_at = 11;
+  // 部门ID
+  int64 dept_id = 12;
+  // 部门名称
+  string dept_name = 13;
+  // 角色信息列表
+  repeated SysRole roles = 14;
+  // 岗位名称映射 (key: post_id, value: post_name)
+  map<int64, string> post_names = 15;
+  // 是否是管理员
+  int32 is_admin = 16;
+}
+
+// 创建用户请求
+message CreateUserRequest {
+  // 用户名
+  optional string name = 1;
+  // 昵称
+  optional string nickname = 2;
+  // 手机号
+  optional string mobile = 3;
+  // 邮箱
+  optional string email = 4 [ (validate.rules).string = {email : true} ];
+  // 头像
+  optional string avatar = 5;
+  // 部门ID
+  optional int64 dept_id = 6;
+  // 生日
+  optional int32 birthday = 7;
+  // 角色ID列表
+  repeated int64 role_ids = 8;
+  // 岗位ID列表
+  repeated int64 post_ids = 9;
+  // 状态
+  optional int32 status = 10;
+}
+
+// 创建用户响应
+message CreateUserReply {
+  // 用户信息
+  UserInfo user = 1;
+}
+
+// 更新用户请求
+message UpdateUserRequest {
+  // 用户ID
+  int64 id = 1;
+  // 昵称
+  optional string nickname = 2;
+  // 手机号
+  optional string mobile = 3;
+  // 邮箱
+  optional string email = 4 [ (validate.rules).string = {email : true} ];
+  // 头像
+  optional string avatar = 5;
+  // 部门ID
+  optional int64 dept_id = 6;
+  // 生日
+  optional int32 birthday = 7;
+  // 角色ID列表
+  repeated int64 role_ids = 8;
+  // 岗位ID列表
+  repeated int64 post_ids = 9;
+  // 状态
+  optional int32 status = 10;
+}
+
+// 更新用户响应
+message UpdateUserReply {
+  // 用户信息
+  UserInfo user = 1;
+}
+
+// 删除用户请求
+message DeleteUserRequest {
+  // 用户ID
+  int64 id = 1;
+}
+
+// 删除用户响应
+message DeleteUserReply {
+  // 是否成功
+  bool success = 1;
+}
+
+// 获取用户请求
+message GetUserRequest {
+  // 用户ID
+  int64 id = 1;
+}
+
+// 获取用户响应
+message GetUserReply {
+  // 用户信息
+  UserInfo user = 1;
+}
+
+// 获取用户列表请求
+message ListUserRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 用户名，用于筛选
+  optional string name = 3;
+  // 昵称，用于筛选
+  optional string nickname = 4;
+  // 手机号，用于筛选
+  optional string mobile = 5;
+  // 状态筛选 0 禁用 1 正常 2 未验证
+  optional int32 status = 6;
+  // 部门ID筛选
+  optional int64 dept_id = 7;
+}
+
+// 获取用户列表响应
+message ListUserReply {
+  // 用户列表
+  repeated UserInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+// 获取用户个人资料请求
+message GetUserProfileRequest {}
+
+// 获取用户个人资料响应
+message GetUserProfileReply { UserProfile profile = 1; }
+
+// 更新用户状态请求
+message UpdateUserStatusRequest {
+  // 用户ID
+  int64 id = 1;
+  // 状态 0 禁用 1 正常 2 未验证
+  int32 status = 2 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+}
+
+// 更新用户状态响应
+message UpdateUserStatusReply {}
+
+// 重置密码请求
+message ResetPasswordRequest {
+  // 用户ID
+  int64 id = 1;
+  string password = 2;
+}
+
+// 重置密码响应
+message ResetPasswordReply {}
+
+// 修改密码请求
+message ChangePasswordRequest {
+  // 旧密码
+  string old_password = 1;
+  // 新密码
+  string new_password = 2;
+  // 验证码
+  string verify_code = 3;
+}
+
+// 修改密码响应
+message ChangePasswordReply {
+  // 状态码
+  int32 code = 1;
+  // 响应消息
+  string msg = 2;
+}
+
+// 管理员修改任意用户密码请求
+message AdminChangePasswordRequest {
+  int64 user_id = 1;
+  string new_password = 2;
+}
+
+// 管理员修改任意用户密码响应
+message AdminChangePasswordReply {
+  // 状态码 0成功 其它失败
+  int32 code = 1;
+  // 响应消息
+  string msg = 2;
+}

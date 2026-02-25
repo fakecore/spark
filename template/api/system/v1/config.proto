@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service Config {
+  rpc CreateConfig(CreateConfigRequest) returns (CreateConfigReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/config"
+      body : "*"
+    };
+  }
+  rpc UpdateConfig(UpdateConfigRequest) returns (UpdateConfigReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/config/update"
+      body : "*"
+    };
+  }
+  rpc DeleteConfig(DeleteConfigRequest) returns (DeleteConfigReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/config/delete"
+      body : "*"
+    };
+  }
+  rpc GetConfig(GetConfigRequest) returns (GetConfigReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/config/get"
+    };
+  }
+  rpc ListConfig(ListConfigRequest) returns (ListConfigReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/config/list"
+    };
+  }
+}
+
+message ConfigInfo {
+  // 参数ID
+  int64 id = 1;
+  // 参数名称
+  string name = 2;
+  // 参数键名
+  string key = 3;
+  // 参数键值
+  string value = 4;
+  // 类型（0 系统, 1 用户）
+  string kind = 5;
+  // 状态(0停用 1正常)
+  int32 status = 6;
+  // 备注
+  optional string remark = 7;
+  // 创建时间
+  int64 created_at = 8;
+  // 更新时间
+  int64 updated_at = 9;
+}
+
+// 创建配置请求
+message CreateConfigRequest {
+  // 参数名称
+  string name = 1;
+  // 参数键名
+  string key = 2;
+  // 参数键值
+  string value = 3;
+  // 类型（0 系统, 1 用户）
+  string kind = 4 [ (validate.rules).string = {in : [ "0", "1" ]} ];
+  // 状态(0停用 1正常)
+  int32 status = 5 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 备注
+  optional string remark = 6;
+}
+
+// 创建配置响应
+message CreateConfigReply {}
+
+// 更新配置请求
+message UpdateConfigRequest {
+  // 参数ID
+  int64 id = 1;
+  // 参数名称
+  string name = 2;
+  // 参数键名
+  string key = 3;
+  // 参数键值
+  string value = 4;
+  // 类型（0 系统, 1 用户）
+  int32 kind = 5 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 状态 0停用 1正常
+  int32 status = 6 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 备注
+  optional string remark = 7;
+}
+
+// 更新配置响应
+message UpdateConfigReply {}
+
+// 删除配置请求
+message DeleteConfigRequest {
+  // 参数ID
+  int64 id = 1;
+}
+
+// 删除配置响应
+message DeleteConfigReply {}
+
+// 获取配置请求
+message GetConfigRequest {
+  // 参数ID
+  int64 id = 1;
+}
+
+// 获取配置响应
+message GetConfigReply {
+  // 配置信息
+  ConfigInfo config = 1;
+}
+
+// 配置列表请求
+message ListConfigRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 名称，用于筛选
+  optional string name = 3;
+  // 键名，用于筛选
+  optional string key = 4;
+  // 类型（0 系统, 1 用户），用于筛选
+  optional string kind = 5 [ (validate.rules).string = {in : [ "0", "1" ]} ];
+  // 状态筛选 0 停用 1 正常
+  optional int32 status = 6 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+}
+
+// 配置列表响应
+message ListConfigReply {
+  // 参数列表
+  repeated ConfigInfo items = 1;
+  // 总数
+  int32 total = 2;
+}

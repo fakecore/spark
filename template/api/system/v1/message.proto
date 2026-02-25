@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+
+service Message {
+  rpc CreateMessage(CreateMessageRequest) returns (CreateMessageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/message"
+      body : "*"
+    };
+  }
+  rpc UpdateMessage(UpdateMessageRequest) returns (UpdateMessageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/message/update"
+      body : "*"
+    };
+  }
+  rpc DeleteMessage(DeleteMessageRequest) returns (DeleteMessageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/message/delete"
+      body : "*"
+    };
+  }
+  rpc GetMessage(GetMessageRequest) returns (GetMessageReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/message/get"
+    };
+  }
+  rpc ListMessage(ListMessageRequest) returns (ListMessageReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/message/list"
+    };
+  }
+  rpc ReadMessage(ReadMessageRequest) returns (ReadMessageReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/message/read"
+      body : "*"
+    };
+  }
+}
+
+message MessageInfo {
+  // 消息ID
+  int64 id = 1;
+  // 消息标题
+  string title = 2;
+  // 消息内容
+  string content = 3;
+  // 消息类型（1系统消息 2通知公告）
+  int32 message_type = 4;
+  // 优先级（1低 2中 3高）
+  int32 priority = 5;
+  // 发送者ID
+  int64 sender_id = 6;
+  // 发送者名称
+  string sender_name = 7;
+  // 接收者ID列表
+  repeated int64 receiver_ids = 8;
+  // 接收者名称列表
+  repeated string receiver_names = 9;
+  // 状态（0未读 1已读）
+  int32 status = 10;
+  // 创建时间
+  int64 created_at = 11;
+  // 更新时间
+  int64 updated_at = 12;
+}
+
+message CreateMessageRequest {
+  // 消息标题
+  string title = 1;
+  // 消息内容
+  string content = 2;
+  // 消息类型
+  int32 message_type = 3;
+  // 优先级
+  int32 priority = 4;
+  // 接收者ID列表
+  repeated int64 receiver_ids = 5;
+}
+
+message CreateMessageReply { MessageInfo message = 1; }
+
+message UpdateMessageRequest {
+  // 消息ID
+  int64 id = 1;
+  // 消息标题
+  string title = 2;
+  // 消息内容
+  string content = 3;
+  // 消息类型
+  int32 message_type = 4;
+  // 优先级
+  int32 priority = 5;
+  // 接收者ID列表
+  repeated int64 receiver_ids = 6;
+}
+
+message UpdateMessageReply { MessageInfo message = 1; }
+
+message DeleteMessageRequest {
+  // 消息ID
+  int64 id = 1;
+}
+
+message DeleteMessageReply { bool success = 1; }
+
+message GetMessageRequest {
+  // 消息ID
+  int64 id = 1;
+}
+
+message GetMessageReply { MessageInfo message = 1; }
+
+message ListMessageRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 消息类型，用于筛选
+  int32 message_type = 3;
+  // 状态，用于筛选 0 系统 1 对多
+  int32 status = 4;
+  // 开始时间
+  int64 begin_time = 5;
+  // 结束时间
+  int64 end_time = 6;
+}
+
+message ListMessageReply {
+  // 消息列表
+  repeated MessageInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+message ReadMessageRequest {
+  // 消息ID
+  int64 id = 1;
+}
+
+message ReadMessageReply { bool success = 1; }

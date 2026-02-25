@@ -1,0 +1,351 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service Role {
+  // CreateRole creates a new role with specified attributes and menu
+  // permissions
+  rpc CreateRole(CreateRoleRequest) returns (CreateRoleReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role"
+      body : "*"
+    };
+  }
+  // UpdateRole updates an existing role's attributes and menu permissions
+  rpc UpdateRole(UpdateRoleRequest) returns (UpdateRoleReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role/update"
+      body : "*"
+    };
+  }
+  // DeleteRole deletes a role by its ID
+  rpc DeleteRole(DeleteRoleRequest) returns (DeleteRoleReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role/delete"
+      body : "*"
+    };
+  }
+  // GetRole retrieves detailed information about a specific role
+  rpc GetRole(GetRoleRequest) returns (GetRoleReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/role/get"
+    };
+  }
+  // ListRole retrieves a paginated list of roles with optional filtering
+  rpc ListRole(ListRoleRequest) returns (ListRoleReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/role/list"
+    };
+  }
+  // ListRolePermission retrieves all menu permissions assigned to a specific
+  // role
+  rpc ListRolePermission(ListRolePermissionRequest)
+      returns (ListRolePermissionReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/role/perm"
+    };
+  }
+
+  // UpdateRoleMenus updates the menu permissions for a specific role
+  rpc UpdateRoleMenus(UpdateRoleMenusRequest) returns (UpdateRoleMenusReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role/menu"
+      body : "*"
+    };
+  }
+  // UpdateRoleDataScope updates the data scope permissions for a specific role
+  rpc UpdateRoleDataScope(UpdateRoleDataScopeRequest)
+      returns (UpdateRoleDataScopeReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role/scope"
+      body : "*"
+    };
+  }
+  // UpdateUserRole updates the roles assigned to a specific user
+  rpc UpdateUserRole(UpdateUserRoleRequest) returns (UpdateUserRoleReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role/user"
+      body : "*"
+    };
+  }
+  // ListRoleMenus retrieves the list of menu IDs assigned to a specific role
+  rpc ListRoleMenus(ListRoleMenusRequest) returns (ListRoleMenusReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/role/menus"
+    };
+  }
+  // ListUserRoles retrieves the list of role IDs assigned to a specific user
+  rpc ListUserRoles(ListUserRolesRequest) returns (ListUserRolesReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/role/users"
+    };
+  }
+  // CheckAPIPermission checks if a role has permission to access a specific API
+  // endpoint
+  rpc CheckAPIPermission(CheckAPIPermissionRequest)
+      returns (CheckAPIPermissionReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/role/check"
+      body : "*"
+    };
+  }
+
+  // GetUserPermission retrieves all permissions for a specific user
+  rpc GetUserPermission(GetUserPermissionRequest)
+      returns (GetUserPermissionReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/role/user/permission"
+    };
+  }
+}
+
+message RoleMenuInfo {
+  // ID
+  int64 id = 1;
+  // 父ID
+  int64 pid = 2;
+  // 规则名称
+  string name = 3;
+  // 规则名称
+  string title = 4;
+  // 图标
+  string icon = 5;
+  // 条件
+  string condition = 6;
+  // 备注
+  optional string remark = 7;
+  // 类型 0目录 1菜单 2按钮
+  int32 menu_type = 8 [ (validate.rules).int32 = {in : [ 0, 1, 2 ]} ];
+  // 权重
+  int32 weight = 9;
+  // 显示状态 0 隐藏 1 显示
+  int32 is_show = 10 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 路由地址
+  string path = 11;
+  // 组件路径
+  string component = 12;
+  // 是否外链 1是 0否
+  int32 is_link = 13 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 所属模块
+  string module_type = 14;
+  // 模型ID
+  int32 model_id = 15;
+  // 是否内嵌iframe
+  int32 is_iframe = 16 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 是否缓存
+  int32 is_cached = 17 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 路由重定向地址
+  string redirect = 18;
+  // 是否固定
+  int32 is_affix = 19 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 链接地址
+  string link_url = 20;
+  // 创建者
+  int64 created_by = 21;
+  // 更新者
+  int64 updated_by = 22;
+  // 创建时间
+  int64 created_at = 23;
+  // 更新时间
+  int64 updated_at = 24;
+  // 子菜单
+  repeated RoleMenuInfo children = 25;
+}
+
+message RoleInfo {
+  // 角色ID
+  int64 id = 1;
+  // 角色名称
+  string name = 2;
+  // 显示顺序
+  int32 sort = 3;
+  // 状态(0停用 1正常)
+  int32 status = 4 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限
+  // 4:本部门及以下数据权限)
+  int32 data_scope = 5 [ (validate.rules).int32 = {in : [ 1, 2, 3, 4 ]} ];
+  // 备注
+  optional string remark = 6;
+  // 创建时间
+  int64 created_at = 7;
+  // 更新时间
+  int64 updated_at = 8;
+}
+
+message CreateRoleRequest {
+  // 角色名称
+  string name = 1;
+  // 显示顺序
+  optional int32 sort = 2;
+  // 状态(0停用 1正常)
+  optional int32 status = 3 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限
+  // 4:本部门及以下数据权限)
+  optional int32 data_scope = 4
+  [ (validate.rules).int32 = {in : [ 1, 2, 3, 4 ]} ];
+  // 备注
+  optional string remark = 5;
+  
+  // 菜单ID列表
+  repeated int64 menu_ids = 6;
+}
+
+message CreateRoleReply {}
+
+message UpdateRoleRequest {
+  // 角色ID
+  int64 id = 1;
+  // 角色名称
+  optional string name = 2;
+  // 显示顺序
+  optional int32 sort = 3;
+  // 状态(0停用 1正常)
+  optional int32 status = 4 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限 4:个人
+  optional int32 data_scope = 5
+  [ (validate.rules).int32 = {in : [ 1, 2, 3, 4 ]} ];
+  // 备注
+  optional string remark = 6;
+  
+  // 菜单ID列表
+  repeated int64 menu_ids = 7;
+}
+
+message UpdateRoleReply {}
+
+message DeleteRoleRequest {
+  // 角色ID
+  int64 id = 1;
+}
+
+message DeleteRoleReply {}
+
+message GetRoleRequest {
+  // 角色ID
+  int64 id = 1;
+}
+
+message GetRoleReply { RoleInfo role = 1; }
+
+message ListRoleRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 角色名称，用于筛选
+  optional string name = 3;
+  // 状态筛选 0 停用 1 正常
+  optional int32 status = 4 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+}
+
+message ListRoleReply {
+  // 角色列表
+  repeated RoleInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+message ListRolePermissionRequest {
+  // 角色ID
+  int64 role_id = 1;
+}
+
+message ListRolePermissionReply {
+  // 角色权限列表
+  repeated RoleMenuInfo items = 1;
+}
+
+message UpdateRoleMenusRequest {
+  int64 role_id = 1;
+  repeated int64 menu_ids = 2;
+}
+
+message UpdateRoleMenusReply {}
+
+message UpdateRoleDataScopeRequest {
+  // 角色ID
+  int64 role_id = 1;
+  // 数据范围(1:全部数据权限 2:自定数据权限 3:本部门数据权限 4:个人
+  int32 data_scope = 2
+  [ (validate.rules).int32.gt = 0, (validate.rules).int32.lt = 5 ];
+  // 当数据范围为自定义时，需要传入的部门ID
+  repeated int64 data_scope_dept_ids = 3;
+}
+
+message UpdateRoleDataScopeReply {}
+
+message UpdateUserRoleRequest {
+  // 用户ID
+  int64 user_id = 1;
+  // 角色ID
+  repeated int64 role_ids = 2;
+}
+
+message UpdateUserRoleReply {}
+
+message ListRoleMenusRequest {
+  // 角色ID
+  int64 role_id = 1;
+}
+
+message ListRoleMenusReply {
+  // 菜单ID
+  repeated int64 menu_ids = 1;
+}
+
+message ListUserRolesRequest {
+  // 用户ID
+  int64 user_id = 1;
+}
+
+message ListUserRolesReply {
+  // 角色ID
+  repeated int64 role_ids = 1;
+}
+
+message CheckAPIPermissionRequest {
+  // 角色ID
+  int64 role_id = 1;
+  
+  // API路径
+  string path = 2;
+  // HTTP方法
+  string method = 3;
+}
+
+message CheckAPIPermissionReply {
+  // 是否有权限
+  bool has_permission = 1;
+}
+
+message CheckUserPermissionRequest {
+  // 用户ID
+  int64 user_id = 1;
+  
+  // API路径
+  string path = 2;
+  // HTTP方法
+  string method = 3;
+}
+
+message CheckUserPermissionReply {
+  // 是否有权限
+  bool has_permission = 1;
+}
+
+message GetUserPermissionRequest {
+  // 用户ID
+  int64 user_id = 1;
+}
+
+message GetUserPermissionReply {
+  // 该用户拥有的菜单ID列表
+  repeated int64 menu_ids = 1;
+}

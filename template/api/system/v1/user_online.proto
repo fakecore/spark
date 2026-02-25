@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+
+service UserOnline {
+  rpc ListUserOnline(ListUserOnlineRequest) returns (ListUserOnlineReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/user/online/list"
+    };
+  }
+  rpc ForceLogout(ForceLogoutRequest) returns (ForceLogoutReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/user/online/logout"
+      body : "*"
+    };
+  }
+}
+
+// 在线用户信息
+message UserOnlineInfo {
+  // 会话编号
+  string token_id = 1;
+  // 用户ID
+  int64 user_id = 2;
+  // 用户名称
+  string user_name = 3;
+  // 部门ID
+  int64 dept_id = 4;
+  // 部门名称
+  string dept_name = 5;
+  // 登录IP地址
+  string ipaddr = 6;
+  // 登录地点
+  string login_location = 7;
+  // 浏览器类型
+  string browser = 8;
+  // 操作系统
+  string os = 9;
+  // 登录时间
+  int64 login_time = 10;
+}
+
+// 获取在线用户列表请求
+message ListUserOnlineRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // IP地址，用于筛选
+  string ipaddr = 3;
+  // 用户名称，用于筛选
+  string user_name = 4;
+}
+
+// 获取在线用户列表响应
+message ListUserOnlineReply {
+  // 在线用户列表
+  repeated UserOnlineInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+// 强制退出请求
+message ForceLogoutRequest {
+  // 会话编号列表
+  repeated string token_ids = 1;
+}
+
+// 强制退出响应
+message ForceLogoutReply { bool success = 1; }

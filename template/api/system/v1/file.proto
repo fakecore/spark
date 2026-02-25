@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service File {
+  // 生成文件上传URL
+  rpc GenFileUploadUrl(GenFileUploadUrlRequest)
+      returns (GenFileUploadUrlReply) {
+    option (google.api.http) = {
+      post : "/api/v1/file/upload-url"
+      body : "*"
+    };
+  }
+
+  // 文件上传完成回调接口
+  rpc FileUploadCallback(FileUploadCallbackRequest)
+      returns (FileUploadCallbackReply) {
+    option (google.api.http) = {
+      post : "/api/v1/file/upload/finished"
+      body : "*"
+    };
+  }
+}
+
+// 生成文件上传URL的请求
+message GenFileUploadUrlRequest {
+  // 文件名
+  string file_name = 1 [ (validate.rules).string = {min_len : 1} ];
+  // 文件大小（字节数）
+  int64 file_size = 2 [ (validate.rules).int64 = {gt : 0} ];
+  // MIME类型(如image/jpeg)
+  string mime_type = 3;
+  // 桶权限类型(1=公开桶/2=私有桶)
+  int32 biz_type = 4 [ (validate.rules).int32 = {in : [ 1, 2 ]} ];
+  // 业务用途(如avatar/contract/product_img,可选)
+  string usage_type = 5;
+  // 强制使用STS方式上传
+  bool force_sts = 6;
+  // 回调配置，如果设置会覆盖全局配置
+  optional Callback callback = 7;
+  
+  // 回调相关参数
+  message Callback {
+    // 是否启用回调
+    bool enable = 1;
+    // 回调URL
+    string url = 2;
+    // 回调请求体，支持变量替换: $(key), $(bucket), $(etag), $(size),
+    // $(mimeType), $(imageInfo)等
+    string body = 3;
+  }
+}
+
+// 生成文件上传URL的响应
+message GenFileUploadUrlReply {
+  optional Sts sts = 1;
+  optional Url url = 2;
+  message Sts {
+    string access_key_id = 1;
+    string access_key_secret = 2;
+    string security_token = 3;
+    string region = 4;
+    string bucket_name = 5;
+    int64 expiration = 6;
+    string object_name = 7;
+    string endpoint = 8;
+  }
+  message Url {
+    string url = 1;
+    string method = 2;
+    int64 expiration = 3;
+    map<string, string> signed_headers = 4;
+  }
+}
+
+// 文件上传完成回调请求
+message FileUploadCallbackRequest {
+  // 存储桶名称
+  string bucket = 1;
+  // 文件对象名称(key)
+  string object = 2;
+  // 文件ETag
+  string etag = 3;
+  // 文件大小(字节)
+  int64 size = 4;
+  // 文件MIME类型
+  string mime_type = 5;
+  // 图片信息
+  optional ImageInfo image_info = 6;
+  // 自定义变量
+  map<string, string> custom_vars = 7;
+  // 图片信息(如果是图片)
+  message ImageInfo {
+    int32 height = 1;
+    int32 width = 2;
+    string format = 3;
+  }
+}
+
+// 文件上传完成回调响应
+message FileUploadCallbackReply {
+  // 处理状态码，0表示成功
+  int32 code = 1;
+  // 处理状态信息
+  string message = 2;
+  // 文件访问URL
+  optional string file_url = 3;
+}

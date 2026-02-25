@@ -1,0 +1,43 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.dylib
+*.test
+*.out
+
+# Go
+vendor/
+go.work
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.claude/
+.cursor/
+.worktrees/
+
+# Build
+bin/
+dist/
+tmp/
+
+# Logs
+*.log
+**/logs/
+
+# Docker
+docker/.env
+
+# Node (web)
+web/node_modules/
+web/dist/
+
+# Secrets
+*.cert
+*.key

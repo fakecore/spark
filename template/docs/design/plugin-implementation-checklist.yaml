@@ -1,0 +1,180 @@
+version: 1
+name: plugin-implementation-checklist
+last_updated: 2026-02-19
+purpose: Persistent, machine-readable execution checklist for plugin platform rollout.
+status_legend:
+  pending: not started
+  in_progress: currently being worked on
+  blocked: waiting on dependency or decision
+  done: completed and verified
+phases:
+  - id: phase-0
+    name: Rule Freeze
+    tasks:
+      - id: 1
+        title: Kickoff freeze matrix
+        status: pending
+        agent: explore
+        task: Re-read docs/design/llm-master-agent-architecture.md and docs/design/plugin-platform-capability-spec.md; produce one-page MUST-rule matrix.
+        dod: Capability names, risk levels, token semantics, and consent flow have no ambiguous wording.
+      - id: 2
+        title: Policy precedence and conflict resolution
+        status: pending
+        agent: oracle
+        task: Finalize rule order hard-deny > org > workspace > instance > consent > default; deny-overrides-allow; scope specificity; TTL precedence.
+        dod: Explicit decision table approved.
+      - id: 3
+        title: Token model freeze
+        status: pending
+        agent: oracle
+        task: Freeze ttl config vs exp claim, run-scope vs per-call thresholds by risk, run-end invalidation, in-flight handling, and revocation propagation.
+        dod: Normative section has zero contradictions.
+      - id: 4
+        title: Consent lifecycle freeze
+        status: pending
+        agent: oracle
+        task: Freeze transitions (pending_consent/granted/active/revoked/expired) and allow_once/allow_until semantics.
+        dod: State transition table plus examples.
+      - id: 5
+        title: Inter-plugin delegation freeze
+        status: pending
+        agent: oracle
+        task: "Freeze Action-first constraints: default deny, export/require matching, max depth, no privilege passthrough, derived token intersection."
+        dod: Delegation validation algorithm documented.
+  - id: phase-1
+    name: Contracts and Data Model
+    tasks:
+      - id: 6
+        title: Admin API contracts
+        status: pending
+        agent: deep
+        task: Draft api/proto/plugin/v1 install/enable/disable/permissions/consent/revoke/list contracts.
+        dod: Proto passes lint/generation and error model is complete.
+      - id: 7
+        title: Runtime API contracts
+        status: pending
+        agent: deep
+        task: Draft Handshake/Health/Invoke/OnEvent/Configure/Shutdown and EventEnvelope schema.
+        dod: Proto generated and request/response schemas frozen.
+      - id: 8
+        title: Error code catalog
+        status: pending
+        agent: writing
+        task: Define API errors (PERMISSION_DENIED, CAPABILITY_REQUIRES_CONSENT, TOKEN_EXPIRED, etc.), retryability, and UI behavior.
+        dod: Error catalog linked from design index.
+      - id: 9
+        title: DB schema and migration design
+        status: pending
+        agent: deep
+        task: Design plugin_registry_snapshots, plugin_instances, plugin_grant_policies, plugin_invocation_audit, and delegation records.
+        dod: Migration plan includes rollback and indexes.
+  - id: phase-2
+    name: Foundation Skeleton
+    tasks:
+      - id: 10
+        title: Package scaffolding and wiring points
+        status: pending
+        agent: quick
+        task: Create internal/plugin/{core,registry,manager,policy,gateway,runtime,token} with interface-only stubs and fx module hooks.
+        dod: Project builds with stubs.
+  - id: phase-3
+    name: Core Runtime
+    tasks:
+      - id: 11
+        title: Registry pipeline
+        status: pending
+        agent: deep
+        task: Implement discover/verify/compile/activate snapshot flow with atomic swap and last-known-good rollback.
+        dod: Bad manifest never replaces active snapshot.
+      - id: 12
+        title: Policy engine implementation
+        status: pending
+        agent: deep
+        task: Implement deterministic policy decision service with explainable trace.
+        dod: Matrix unit tests cover all branches.
+      - id: 13
+        title: Token service implementation
+        status: pending
+        agent: deep
+        task: Implement mint/validate/revoke with run_id binding, derived token support, denylist/version checks, and run-end force invalidation.
+        dod: Security tests pass replay/reuse/revocation scenarios.
+      - id: 14
+        title: Capability gateway implementation
+        status: pending
+        agent: deep
+        task: Implement enforcement for action.invoke, plugin.invoke, llm.chat.invoke, and storage capabilities (authz/quota/audit/errors).
+        dod: Unauthorized calls fail closed.
+      - id: 15
+        title: Action catalog integration
+        status: pending
+        agent: explore+deep
+        task: Register exports.actions[] into Action Catalog and route via existing action entrypoint.
+        dod: Plugin action discoverable and invokable through gateway.
+  - id: phase-3-5
+    name: Sandbox Baseline (Raw Local First)
+    execution_note: Execute this phase before phase-4 workflow integration.
+    tasks:
+      - id: 16
+        title: Sandbox abstraction contract
+        status: pending
+        agent: deep
+        task: Define SandboxDriver interface and SandboxProfile model (low/medium/high/critical), with capability-to-profile mapping.
+        dod: Architecture contract is frozen and referenced by gateway and executor.
+      - id: 17
+        title: Raw local driver implementation first
+        status: pending
+        agent: deep
+        task: Implement raw-local driver as initial backend (host process execution plus strict audit hooks), without Docker or VM dependency.
+        dod: All sandboxed execution paths run through raw-local backend in local development.
+      - id: 18
+        title: Local policy enforcement and guardrails
+        status: pending
+        agent: deep
+        task: Enforce profile-based limits in raw-local mode (command allowlist, cwd scope, timeout, env filtering, output caps).
+        dod: High-risk capabilities are blocked or require explicit policy gates even in local mode.
+  - id: phase-4
+    name: Workflow and E2E Example
+    tasks:
+      - id: 19
+        title: Workflow/scheduler integration
+        status: pending
+        agent: deep
+        task: Integrate plugin runs with scheduler (08:00 cron), slot idempotency lock, and retry/DLQ behavior.
+        dod: Same plugin_instance+slot never executes twice.
+      - id: 20
+        title: Reference plugin news assistant
+        status: pending
+        agent: deep
+        task: Build demo flow (fetch -> summarize -> dedup -> send) using gateway-only capabilities.
+        dod: Daily end-to-end run works and audit trace is complete.
+  - id: phase-5
+    name: Security, Testing, Operations
+    tasks:
+      - id: 21
+        title: Threat-model review
+        status: pending
+        agent: oracle
+        task: Review leakage, privilege escalation, delegation abuse, and consent bypass.
+        dod: Mitigation checklist closed or tracked as blockers.
+      - id: 22
+        title: Test suite layers
+        status: pending
+        agent: deep
+        task: Add unit (policy/token), integration (gateway+registry), and e2e (consent/revoke/run-end invalidation/inter-plugin depth).
+        dod: CI gate includes suites.
+      - id: 23
+        title: Ops runbook and docs
+        status: pending
+        agent: writing
+        task: Produce onboarding, risk prompts, revoke/denylist incident response, and observability dashboard guidance.
+        dod: Docs linked in docs/design/README.md.
+      - id: 24
+        title: Release rollout plan
+        status: pending
+        agent: oracle
+        task: Define internal alpha -> allowlist beta -> GA with kill switches and rollback criteria.
+        dod: Go/no-go checklist signed.
+new_session_start_prompt: >-
+  Load docs/design/plugin-implementation-checklist.md and
+  docs/design/plugin-implementation-checklist.yaml, set all tasks to pending in todo list,
+  then start from item 1 and execute phase by phase.

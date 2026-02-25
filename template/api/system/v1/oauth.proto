@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+
+service OAuth {
+  // 登录获取token
+  rpc Login(OAuthLoginRequest) returns (OAuthLoginReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/oauth/login"
+      body : "*"
+    };
+  }
+  // 刷新token
+  rpc RefreshToken(OAuthRefreshTokenRequest) returns (OAuthRefreshTokenReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/oauth/refresh"
+      body : "*"
+    };
+  }
+  // 登出
+  rpc Logout(OAuthLogoutRequest) returns (OAuthLogoutReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/oauth/logout"
+      body : "*"
+    };
+  }
+  // 获取用户信息
+  rpc GetUserInfo(OAuthGetUserInfoRequest) returns (OAuthGetUserInfoReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/oauth/user/info"
+    };
+  }
+  // 获取用户权限
+  rpc GetUserPerms(OAuthGetUserPermsRequest) returns (OAuthGetUserPermsReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/oauth/user/perms"
+    };
+  }
+  // 获取用户路由
+  rpc GetUserRoutes(OAuthGetUserRoutesRequest)
+      returns (OAuthGetUserRoutesReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/oauth/user/routes"
+    };
+  }
+  // 绑定第三方账号
+  rpc BindOAuth(OAuthBindRequest) returns (OAuthBindReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/oauth/bind"
+      body : "*"
+    };
+  }
+  // 解绑第三方账号
+  rpc UnbindOAuth(OAuthUnbindRequest) returns (OAuthUnbindReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/oauth/unbind"
+      body : "*"
+    };
+  }
+}
+
+// 登录请求
+message OAuthLoginRequest {
+  // 用户名
+  string username = 1;
+  // 密码
+  string password = 2;
+  // 验证码
+  string code = 3;
+  // 唯一标识
+  string uuid = 4;
+}
+
+// 登录响应
+message OAuthLoginReply {
+  // 访问令牌
+  string access_token = 1;
+  // 令牌类型
+  string token_type = 2;
+  // 刷新令牌
+  string refresh_token = 3;
+  // 过期时间
+  int64 expires_in = 4;
+}
+
+// 刷新令牌请求
+message OAuthRefreshTokenRequest {
+  // 刷新令牌
+  string refresh_token = 1;
+}
+
+// 刷新令牌响应
+message OAuthRefreshTokenReply {
+  // 访问令牌
+  string access_token = 1;
+  // 令牌类型
+  string token_type = 2;
+  // 刷新令牌
+  string refresh_token = 3;
+  // 过期时间
+  int64 expires_in = 4;
+}
+
+// 登出请求
+message OAuthLogoutRequest {}
+
+// 登出响应
+message OAuthLogoutReply { bool success = 1; }
+
+// 用户信息
+message OAuthUserInfo {
+  // 用户ID
+  int64 user_id = 1;
+  // 用户名
+  string username = 2;
+  // 昵称
+  string nickname = 3;
+  // 头像
+  string avatar = 4;
+  
+  // 部门ID
+  int64 dept_id = 5;
+  // 部门名称
+  string dept_name = 6;
+  // 角色列表
+  repeated string roles = 7;
+  // 权限列表
+  repeated string permissions = 8;
+}
+
+// 获取用户信息请求
+message OAuthGetUserInfoRequest {}
+
+// 获取用户信息响应
+message OAuthGetUserInfoReply { OAuthUserInfo user = 1; }
+
+// 获取用户权限请求
+message OAuthGetUserPermsRequest {}
+
+// 获取用户权限响应
+message OAuthGetUserPermsReply {
+  // 权限列表
+  repeated string permissions = 1;
+}
+
+// 路由信息
+message RouteInfo {
+  // 路由路径
+  string path = 1;
+  // 组件路径
+  string component = 2;
+  // 路由名称
+  string name = 3;
+  // 重定向地址
+  string redirect = 4;
+  // 标题
+  string title = 5;
+  // 图标
+  string icon = 6;
+  // 是否隐藏
+  bool hidden = 7;
+  // 是否总是显示
+  bool always_show = 8;
+  // 子路由
+  repeated RouteInfo children = 9;
+}
+
+// 获取用户路由请求
+message OAuthGetUserRoutesRequest {}
+
+// 获取用户路由响应
+message OAuthGetUserRoutesReply {
+  // 路由列表
+  repeated RouteInfo routes = 1;
+}
+
+// 第三方账号信息
+message OAuthInfo {
+  // 提供商（如：github、google、wechat等）
+  string provider = 1;
+  // 开放ID
+  string open_id = 2;
+  // 统一ID
+  string union_id = 3;
+  // 昵称
+  string nickname = 4;
+  // 头像
+  string avatar = 5;
+  // 邮箱
+  string email = 6;
+}
+
+// 绑定第三方账号请求
+message OAuthBindRequest {
+  // 提供商
+  string provider = 1;
+  // 授权码
+  string code = 2;
+  // 状态码
+  string state = 3;
+}
+
+// 绑定第三方账号响应
+message OAuthBindReply { OAuthInfo oauth = 1; }
+
+// 解绑第三方账号请求
+message OAuthUnbindRequest {
+  // 提供商
+  string provider = 1;
+}
+
+// 解绑第三方账号响应
+message OAuthUnbindReply { bool success = 1; }

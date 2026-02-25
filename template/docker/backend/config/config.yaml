@@ -1,0 +1,57 @@
+server:
+  name: projecttemplate
+  http:
+    addr: 0.0.0.0:8080
+    timeout: 60s
+  grpc:
+    addr: 0.0.0.0:8081
+    timeout: 60s
+  log:
+    level: "info"
+    format: "console"
+    disable_caller: false
+    disable_stacktrace: false
+    output_paths: ["stdout"]
+    error_output_paths: ["stderr"]
+    rotation:
+      max_size: 50
+      max_backups: 5
+      max_age: 30
+      compress: true
+  tracing:
+    enabled: true
+    trace_id_header: "X-Trace-ID"
+    request_id_header: "X-Request-ID"
+    log_requests: true
+    log_responses: false
+
+data:
+  database:
+    driver: postgres
+    source: "host=postgres user=projecttemplate password=projecttemplate dbname=projecttemplate port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    maxIdleConns: 10
+    maxOpenConns: 20
+    logLevel: "info"
+  redis:
+    # This compose stack runs Redis. Use "memory" for local dev without Redis.
+    mode: "external"
+    addr: "redis:6379"
+    password: ""
+    database: 1
+
+casbin:
+  path: "/app/hack/config/casbin_model.conf"
+
+auth:
+  accessSecret: "projecttemplate-change-me"
+  accessExpire: 604800s
+  clientAccessExpire: 172800s
+
+dev:
+  enable_openapi: false
+  openapi_path: "./openapi.yaml"
+
+# Disabled by default. Provide via config when needed.
+# Supported services: local, memory, s3, aliyun, tencent
+oss:
+  service: ""

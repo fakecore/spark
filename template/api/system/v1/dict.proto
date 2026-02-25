@@ -1,0 +1,301 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service Dict {
+  // 字典类型管理
+  rpc CreateDictType(CreateDictTypeRequest) returns (CreateDictTypeReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/dict/type"
+      body : "*"
+    };
+  }
+  rpc UpdateDictType(UpdateDictTypeRequest) returns (UpdateDictTypeReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/dict/type/update"
+      body : "*"
+    };
+  }
+  rpc DeleteDictType(DeleteDictTypeRequest) returns (DeleteDictTypeReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/dict/type/delete"
+      body : "*"
+    };
+  }
+  rpc GetDictType(GetDictTypeRequest) returns (GetDictTypeReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/dict/type/get"
+    };
+  }
+  rpc ListDictType(ListDictTypeRequest) returns (ListDictTypeReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/dict/type/list"
+    };
+  }
+
+  // 字典数据管理
+  rpc CreateDictData(CreateDictDataRequest) returns (CreateDictDataReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/dict/data"
+      body : "*"
+    };
+  }
+  rpc UpdateDictData(UpdateDictDataRequest) returns (UpdateDictDataReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/dict/data/update"
+      body : "*"
+    };
+  }
+  rpc DeleteDictData(DeleteDictDataRequest) returns (DeleteDictDataReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/dict/data/delete"
+      body : "*"
+    };
+  }
+  rpc GetDictData(GetDictDataRequest) returns (GetDictDataReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/dict/data/get"
+    };
+  }
+  rpc ListDictData(ListDictDataRequest) returns (ListDictDataReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/dict/data/list"
+    };
+  }
+}
+
+// 字典类型信息
+message DictTypeInfo {
+  // 字典类型ID
+  int64 id = 1;
+  // 字典名称
+  string dict_name = 2;
+  // 字典类型
+  string dict_code = 3;
+  // 状态 0停用 1正常
+  int32 status = 4 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 备注
+  optional string remark = 5;
+  // 创建时间
+  int64 created_at = 6;
+  // 更新时间
+  int64 updated_at = 7;
+}
+
+// 字典数据信息
+message DictDataInfo {
+  // 字典数据ID
+  int64 id = 1;
+  // 字典类型ID
+  int64 dict_type_id = 2;
+  // 字典标签
+  string dict_label = 3;
+  // 字典键值
+  string dict_value = 4;
+  // 字典类型
+  string dict_code = 5;
+  // 显示顺序
+  int32 sort = 6;
+  // 样式属性
+  string css_class = 7;
+  // 表格回显样式
+  string list_class = 8;
+  // 是否默认
+  bool is_default = 9;
+  // 状态 0停用 1正常
+  int32 status = 10;
+  // 备注
+  optional string remark = 11;
+  // 创建时间
+  int64 created_at = 12;
+  // 更新时间
+  int64 updated_at = 13;
+}
+
+// 创建字典类型请求
+message CreateDictTypeRequest {
+  // 字典名称
+  string dict_name = 1;
+  // 字典类型
+  string dict_code = 2;
+  // 状态 0停用 1正常
+  int32 status = 3;
+  // 备注
+  optional string remark = 4;
+}
+
+// 创建字典类型响应
+message CreateDictTypeReply {}
+
+// 更新字典类型请求
+message UpdateDictTypeRequest {
+  // 字典类型ID
+  int64 id = 1;
+  // 字典名称
+  string dict_name = 2;
+  // 字典类型
+  string dict_code = 3;
+  // 状态 0停用 1正常
+  int32 status = 4;
+  // 备注
+  optional string remark = 5;
+}
+
+// 更新字典类型响应
+message UpdateDictTypeReply {}
+
+// 删除字典类型请求
+message DeleteDictTypeRequest {
+  // 字典类型ID
+  int64 id = 1;
+}
+
+// 删除字典类型响应
+message DeleteDictTypeReply {}
+
+// 获取字典类型请求
+message GetDictTypeRequest {
+  // 字典类型ID
+  int64 id = 1;
+}
+
+// 获取字典类型响应
+message GetDictTypeReply {
+  // 字典类型信息
+  DictTypeInfo dict_type = 1;
+}
+
+// 列表字典类型请求
+message ListDictTypeRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 字典名称，用于筛选
+  string dict_name = 3;
+  // 字典类型，用于筛选
+  string dict_type = 4;
+  // 状态筛选 0停用 1正常
+  int32 status = 5;
+}
+
+// 列表字典类型响应
+message ListDictTypeReply {
+  // 字典类型列表
+  repeated DictTypeInfo items = 1;
+  // 总数
+  int32 total = 2;
+}
+
+// 创建字典数据请求
+message CreateDictDataRequest {
+  // 字典类型ID
+  int64 dict_type_id = 1;
+  // 字典标签
+  string dict_label = 2;
+  // 字典键值
+  string dict_value = 3;
+  // 字典类型
+  string dict_type = 4;
+  // 显示顺序
+  int32 sort = 5;
+  // 样式属性
+  string css_class = 6;
+  // 表格回显样式
+  string list_class = 7;
+  // 是否默认 1是 0否
+  bool is_default = 8;
+  // 状态 0停用 1正常
+  int32 status = 9;
+  // 备注
+  optional string remark = 10;
+}
+
+// 创建字典数据响应
+message CreateDictDataReply {
+  // 字典数据信息
+  DictDataInfo dict_data = 1;
+}
+
+// 更新字典数据请求
+message UpdateDictDataRequest {
+  // 字典数据ID
+  int64 id = 1;
+  // 字典类型ID
+  int64 dict_type_id = 2;
+  // 字典标签
+  string dict_label = 3;
+  // 字典键值
+  string dict_value = 4;
+  // 字典类型
+  string dict_type = 5;
+  // 显示顺序
+  int32 sort = 6;
+  // 样式属性
+  string css_class = 7;
+  // 表格回显样式
+  string list_class = 8;
+  // 是否默认 1是 0否
+  bool is_default = 9;
+  // 状态 0停用 1正常
+  int32 status = 10;
+  // 备注
+  optional string remark = 11;
+}
+
+// 更新字典数据响应
+message UpdateDictDataReply {}
+
+// 删除字典数据请求
+message DeleteDictDataRequest {
+  // 字典数据ID
+  int64 id = 1;
+}
+
+// 删除字典数据响应
+message DeleteDictDataReply {}
+
+// 获取字典数据请求
+message GetDictDataRequest {
+  // 字典数据ID
+  int64 id = 1;
+}
+
+// 获取字典数据响应
+message GetDictDataReply {
+  // 字典数据信息
+  DictDataInfo dict_data = 1;
+}
+
+// 列表字典数据请求
+message ListDictDataRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 字典类型ID，用于筛选
+  int64 dict_type_id = 3;
+  // 字典类型，用于筛选
+  string dict_type = 4;
+  // 字典标签，用于筛选
+  string dict_label = 5;
+  // 状态筛选 0停用 1正常
+  int32 status = 6 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 是否默认 1是 0否
+  bool is_default = 7;
+}
+
+// 列表字典数据响应
+message ListDictDataReply {
+  // 字典数据列表
+  repeated DictDataInfo items = 1;
+  // 总数
+  int32 total = 2;
+}

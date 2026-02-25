@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package api.system.v1;
+
+option go_package = "spark/api/system/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.system.v1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+service Post {
+  rpc CreatePost(CreatePostRequest) returns (CreatePostReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/post"
+      body : "*"
+    };
+  }
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/post/update"
+      body : "*"
+    };
+  }
+  rpc DeletePost(DeletePostRequest) returns (DeletePostReply) {
+    option (google.api.http) = {
+      post : "/api/v1/system/post/delete"
+      body : "*"
+    };
+  }
+  rpc GetPost(GetPostRequest) returns (GetPostReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/post/get"
+    };
+  }
+  rpc ListPost(ListPostRequest) returns (ListPostReply) {
+    option (google.api.http) = {
+      get : "/api/v1/system/post/list"
+    };
+  }
+}
+
+message PostInfo {
+  // 岗位ID
+  int64 id = 1;
+  // 岗位编码
+  string post_code = 2;
+  // 岗位名称
+  string post_name = 3;
+  // 显示顺序
+  int32 sort = 4;
+  // 状态(0停用 1正常)
+  int32 status = 5 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 备注
+  optional string remark = 6;
+  // 创建时间
+  int64 created_at = 7;
+  // 更新时间
+  int64 updated_at = 8;
+}
+
+message CreatePostRequest {
+  // 岗位编码
+  string post_code = 1;
+  // 岗位名称
+  string post_name = 2;
+  // 显示顺序
+  int32 sort = 3;
+  // 状态(0停用 1正常)
+  int32 status = 4 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 备注
+  optional string remark = 5;
+}
+
+message CreatePostReply {}
+
+message UpdatePostRequest {
+  // 岗位ID
+  int64 id = 1;
+  // 岗位编码
+  string post_code = 2;
+  // 岗位名称
+  string post_name = 3;
+  // 显示顺序
+  int32 sort = 4;
+  // 状态(0停用 1正常)
+  int32 status = 5 [ (validate.rules).int32 = {in : [ 0, 1 ]} ];
+  // 备注
+  optional string remark = 6;
+}
+
+message UpdatePostReply {}
+
+message DeletePostRequest {
+  // 岗位ID
+  int64 id = 1;
+}
+
+message DeletePostReply {}
+
+message GetPostRequest {
+  // 岗位ID
+  int64 id = 1;
+}
+
+message GetPostReply { PostInfo post = 1; }
+
+message ListPostRequest {
+  // 每页数量
+  int32 page_size = 1;
+  // 页码
+  int32 current = 2;
+  // 岗位编码，用于筛选
+  optional string post_code = 3;
+  // 岗位名称，用于筛选
+  optional string post_name = 4;
+  // 状态筛选 0 停用 1 正常
+  optional int32 status = 5;
+}
+
+message ListPostReply {
+  // 岗位列表
+  repeated PostInfo items = 1;
+  // 总数
+  int32 total = 2;
+}

@@ -1,0 +1,72 @@
+services:
+  # Local-only DB for dev/test. In staging/prod you typically use an external DB.
+  postgres:
+    image: postgres:15
+    profiles: ["local"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-projecttemplate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-projecttemplate}
+      POSTGRES_DB: ${POSTGRES_DB:-projecttemplate}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-projecttemplate} -d ${POSTGRES_DB:-projecttemplate} -h 127.0.0.1 -p 5432"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    networks:
+      - app-network
+
+  redis:
+    image: redis:8.4.0
+    restart: unless-stopped
+    # Bind to localhost only. Backend uses the internal network address (redis:6379).
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    networks:
+      - app-network
+
+
+  backend:
+    image: ${BACKEND_IMAGE:-projecttemplate-backend}:${BACKEND_VERSION:-dev}
+    restart: unless-stopped
+    volumes:
+      - ./backend/config:/app/hack/config
+      - ./logs:/app/logs
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend:
+    image: ${FRONTEND_IMAGE:-projecttemplate-frontend}:${FRONTEND_VERSION:-dev}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-9001}:9001"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
